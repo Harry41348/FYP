@@ -6,11 +6,9 @@ function RootLayout() {
   return (
     <div id="rootLayout" className={classes.rootLayout}>
       <Sidebar />
-      <div>
-        <main>
-          <Outlet />
-        </main>
-      </div>
+      <main>
+        <Outlet />
+      </main>
     </div>
   );
 }
