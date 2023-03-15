@@ -1,0 +1,54 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 24rem;
+  background-color: var(--colour-primary);
+  padding: 1rem;
+}
+
+.sidebar > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.heading {
+  font-size: 3rem;
+  text-align: center;
+  padding: 3rem 0;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #212121;
+}
+
+.link {
+  display: block;
+  padding: 1rem 1rem;
+  border-radius: 0.6rem;
+  color: var(--white);
+  text-decoration: none;
+  font-size: 1.6rem;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.link:hover {
+  padding-left: 1.5rem;
+  background-color: #1113;
+}
+
+.link svg {
+  padding-right: 1rem;
+  font-size: 3rem;
+  vertical-align: middle;
+}
+
+.link p {
+  vertical-align: middle;
+}
+
+.profile {
+  text-align: center;
+  padding: 2rem 0;
+  color: var(--white);
+}
