@@ -1,6 +1,7 @@
 .form {
   background-color: var(--white);
   padding: 3rem;
+  min-width: 30rem;
 }
 
 .title {

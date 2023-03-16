@@ -46,9 +46,9 @@ function Sidebar() {
           <Link className={classes.link} to="/login">
             Login
           </Link>
-          <a className={classes.link} href="#">
+          <Link className={classes.link} to="/register">
             Register
-          </a>
+          </Link>
         </div>
       )}
       {token && (

@@ -6,9 +6,13 @@ import { useRef, useState } from "react";
 import { useStateContext } from "../contexts/ContextProvider";
 import axiosClient from "../axios-client";
 
-function Login() {
+function Register() {
+  const firstNameRef = useRef();
+  const lastNameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
+  const passwordConfirmationRef = useRef();
+
   const [errors, setErrors] = useState();
   const { setUser, setToken } = useStateContext();
   const navigate = useNavigate();
@@ -17,14 +21,17 @@ function Login() {
     e.preventDefault();
 
     const payload = {
+      first_name: firstNameRef.current.value,
+      last_name: lastNameRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
+      password_confirmation: passwordConfirmationRef.current.value,
     };
 
     setErrors(null);
 
     axiosClient
-      .post("/login", payload)
+      .post("/register", payload)
       .then(({ data }) => {
         setUser(data.user);
         setToken(data.token);
@@ -48,7 +55,7 @@ function Login() {
   return (
     <Modal>
       <form method="POST" onSubmit={onSubmit} className={classes.form}>
-        <h1 className={classes.title}>Login</h1>
+        <h1 className={classes.title}>Register</h1>
         {errors && (
           <div className="alert">
             {Object.keys(errors).map((key) => (
@@ -56,15 +63,22 @@ function Login() {
             ))}
           </div>
         )}
+        <input ref={firstNameRef} type="text" placeholder="First Name" />
+        <input ref={lastNameRef} type="text" placeholder="Last Name" />
         <input ref={emailRef} type="email" placeholder="Email" />
         <input ref={passwordRef} type="password" placeholder="Password" />
-        <button className="btn btn-block">Login</button>
+        <input
+          ref={passwordConfirmationRef}
+          type="password"
+          placeholder="Password Confirmation"
+        />
+        <button className="btn btn-block">Register</button>
         <p className="message">
-          Not a member? <Link to="/register">Create an account</Link>
+          Already a member? <Link to="/login">Login</Link>
         </p>
       </form>
     </Modal>
   );
 }
 
-export default Login;
+export default Register;
