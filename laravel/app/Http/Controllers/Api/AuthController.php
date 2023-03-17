@@ -27,7 +27,7 @@ class AuthController extends Controller
         $token = $user->createToken('main')->plainTextToken;
 
         // Return the user and token
-        return response(compact('user', 'token'));
+        return response(compact('user', 'token'), 201);
     }
 
     public function login(LoginRequest $request)
@@ -39,7 +39,7 @@ class AuthController extends Controller
         if (!Auth::attempt($credentials)) {
             return response([
                 'message' => 'Provided email address or password is incorrect.'
-            ], 422);
+            ], 401);
         }
 
         // Return the user and token
