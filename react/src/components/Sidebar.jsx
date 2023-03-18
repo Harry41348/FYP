@@ -34,7 +34,7 @@ function Sidebar() {
         </Link>
         <a className={classes.link} href="#">
           <FaGlassMartiniAlt />
-          Your bar
+          My bar
         </a>
         <a className={classes.link} href="#">
           <FaGraduationCap />

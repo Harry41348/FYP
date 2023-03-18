@@ -60,4 +60,9 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($password);
     }
+
+    public function ingredients()
+    {
+        return $this->hasManyThrough(Ingredient::class, UserIngredient::class);
+    }
 }
