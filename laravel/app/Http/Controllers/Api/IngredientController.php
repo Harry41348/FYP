@@ -7,16 +7,42 @@ use App\Http\Requests\IngredientRequest;
 use App\Http\Resources\IngredientResource;
 use App\Models\Ingredient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class IngredientController extends Controller
 {
     /**
-     * Show all ingredients
+     * Show all ingredients or a category of ingredients
      */
-    public function index()
+    public function index($category = "")
     {
-        return IngredientResource::collection(Ingredient::all());
-        // return IngredientResource::collection(Ingredient::all()->orderBy('category', 'asc')); TODO order by
+        if ($category === "") {
+            $ingredients = IngredientResource::collection(Ingredient::all());
+        } else {
+            $ingredients = IngredientResource::collection(Ingredient::where('category', $category)->get());
+        }
+
+        return response($ingredients, 200);
+    }
+
+    /**
+     * Get category of ingredients marked with user ingredients
+     */
+    public function userIngredients($category = "")
+    {
+        $user = Auth::user();
+        $userIngredients = $user->ingredients;
+        $ingredients = IngredientResource::collection(Ingredient::where('category', $category)->get());
+
+        foreach ($ingredients as $ingredient) {
+            if ($userIngredients->contains('id', $ingredient->id)) {
+                $ingredient->userHas = true;
+            } else {
+                $ingredient->userHas = false;
+            }
+        }
+
+        return response($ingredients, 200);
     }
 
     /**
@@ -28,22 +54,6 @@ class IngredientController extends Controller
 
         $ingredient = Ingredient::create($data);
         return response(new IngredientResource($ingredient), 201);
-    }
-
-    /**
-     * Return a specific ingredient. TODO Needed?
-     */
-    public function show(Ingredient $ingredient)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage. TODO Needed?
-     */
-    public function update(IngredientRequest $request, Ingredient $ingredient)
-    {
-        //
     }
 
     /**

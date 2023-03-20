@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserIngredient extends Model
+class IngredientUser extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,9 @@ class UserIngredient extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
         'ingredient_id',
+        'user_id',
     ];
+
+    protected $table = "ingredient_user";
 }

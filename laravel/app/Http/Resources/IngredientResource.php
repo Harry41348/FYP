@@ -19,6 +19,7 @@ class IngredientResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'category' => $this->category,
+            'userHas' => $this->userHas
         ];
     }
 }

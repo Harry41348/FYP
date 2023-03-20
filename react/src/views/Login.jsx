@@ -9,7 +9,7 @@ import axiosClient from "../axios-client";
 function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState(null);
   const { setUser, setToken } = useStateContext();
   const navigate = useNavigate();
 

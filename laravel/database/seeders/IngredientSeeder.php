@@ -14,22 +14,22 @@ class IngredientSeeder extends Seeder
     public function run(): void
     {
         $ingredients = [
-            ['id' => 1, 'name' => 'Vodka', 'category' => 'Spirit'],
-            ['id' => 2, 'name' => 'Light Rum', 'category' => 'Spirit'],
-            ['id' => 3, 'name' => 'Dark Rum', 'category' => 'Spirit'],
-            ['id' => 4, 'name' => 'Rum', 'category' => 'Spirit'],
-            ['id' => 5, 'name' => 'Tequila', 'category' => 'Spirit'],
-            ['id' => 6, 'name' => 'Whiskey', 'category' => 'Spirit'],
-            ['id' => 7, 'name' => 'Gin', 'category' => 'Spirit'],
-            ['id' => 8, 'name' => 'Syrup', 'category' => 'Mixer'],
-            ['id' => 9, 'name' => 'Lime', 'category' => 'Mixer'],
-            ['id' => 10, 'name' => 'Lemon', 'category' => 'Mixer'],
-            ['id' => 11, 'name' => 'Orange Juice', 'category' => 'Mixer'],
-            ['id' => 12, 'name' => 'Pineapple Juice', 'category' => 'Mixer'],
-            ['id' => 13, 'name' => 'Lemonade', 'category' => 'Mixer'],
-            ['id' => 14, 'name' => 'Ginger Beer', 'category' => 'Mixer'],
-            ['id' => 15, 'name' => 'Coke', 'category' => 'Mixer'],
-            ['id' => 16, 'name' => 'Soda Water', 'category' => 'Mixer'],
+            ['name' => 'Vodka', 'category' => 'Spirit'],
+            ['name' => 'Light Rum', 'category' => 'Spirit'],
+            ['name' => 'Dark Rum', 'category' => 'Spirit'],
+            ['name' => 'Spiced Rum', 'category' => 'Spirit'],
+            ['name' => 'Tequila', 'category' => 'Spirit'],
+            ['name' => 'Whiskey', 'category' => 'Spirit'],
+            ['name' => 'Gin', 'category' => 'Spirit'],
+            ['name' => 'Syrup', 'category' => 'Mixer'],
+            ['name' => 'Lime', 'category' => 'Mixer'],
+            ['name' => 'Lemon', 'category' => 'Mixer'],
+            ['name' => 'Orange Juice', 'category' => 'Mixer'],
+            ['name' => 'Pineapple Juice', 'category' => 'Mixer'],
+            ['name' => 'Lemonade', 'category' => 'Mixer'],
+            ['name' => 'Ginger Beer', 'category' => 'Mixer'],
+            ['name' => 'Coke', 'category' => 'Mixer'],
+            ['name' => 'Soda Water', 'category' => 'Mixer'],
         ];
 
         foreach ($ingredients as $ingredient) {

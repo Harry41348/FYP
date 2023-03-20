@@ -9,6 +9,12 @@ import axiosClient from "../axios-client";
 function Sidebar() {
   const { user, token, setUser, setToken } = useStateContext();
 
+  useEffect(() => {
+    if (token) {
+      getUser();
+    }
+  }, []);
+
   const onLogout = (e) => {
     e.preventDefault();
 
@@ -18,43 +24,49 @@ function Sidebar() {
     });
   };
 
-  useEffect(() => {
-    axiosClient.get("/user").then(({ data }) => {
-      setUser(data);
-    });
-  }, []);
+  const getUser = () => {
+    axiosClient
+      .get("/user")
+      .then(({ data }) => {
+        setUser(data);
+      })
+      .catch((err) => {
+        if (err.response.status == 401) {
+          setToken(null);
+        }
+      });
+  };
 
   return (
     <aside className={classes.sidebar}>
       <div>
         <h1 className={classes.heading}>Mixxy</h1>
-        <Link className={classes.link} to="/recipes">
+        <Link className="btn-sidebar" to="/recipes">
           <BiBook />
           <span>Recipes</span>
         </Link>
-        <a className={classes.link} href="#">
+        <Link className="btn-sidebar" to="/my-bar">
           <FaGlassMartiniAlt />
           My bar
-        </a>
-        <a className={classes.link} href="#">
+        </Link>
+        <a className="btn-sidebar" href="#">
           <FaGraduationCap />
           Learn
         </a>
       </div>
       {!token && (
         <div>
-          <Link className={classes.link} to="/login">
+          <Link className="btn-sidebar" to="/login">
             Login
           </Link>
-          <Link className={classes.link} to="/register">
+          <Link className="btn-sidebar" to="/register">
             Register
           </Link>
         </div>
       )}
       {token && (
         <div>
-          {/* TODO Turn this into a button */}
-          <a className={classes.link} href="#" onClick={onLogout}>
+          <a className="btn-sidebar" href="#" onClick={onLogout}>
             Logout
           </a>
           <p className={classes.profile}>{user.first_name}</p>

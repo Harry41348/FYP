@@ -7,9 +7,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\UserIngredient>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\IngredientUser>
  */
-class UserIngredientFactory extends Factory
+class IngredientUserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,8 +19,8 @@ class UserIngredientFactory extends Factory
     public function definition(): array
     {
         return [
+            'ingredient_id' => Ingredient::all()->random()->id,
             'user_id' => User::all()->random()->id,
-            'ingredient_id' => Ingredient::all()->random()->id
         ];
     }
 }
