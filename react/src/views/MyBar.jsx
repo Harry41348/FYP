@@ -57,7 +57,12 @@ function MyBar() {
 
   return (
     <>
-      {addIngredient && <AddIngredients />}
+      {addIngredient && (
+        <AddIngredients
+          setIngredientUsers={getIngredientUsers}
+          setAddIngredients={setAddIngredient}
+        />
+      )}
       <div className="header">
         <h2 className="heading">MyBar</h2>
       </div>
@@ -68,11 +73,17 @@ function MyBar() {
             <h3 className={classes.ingredientsHeading}>Your Ingredients</h3>
             <div className={classes.addIngredient}>
               <p>
-                <button
+                {/* <button
                   className="btn btn-round"
                   onClick={(ev) => setAddIngredient(true)}
                 >
                   <GrAdd />
+                </button> */}
+                <button
+                  className="btn"
+                  onClick={(ev) => setAddIngredient(true)}
+                >
+                  Add
                 </button>
               </p>
             </div>

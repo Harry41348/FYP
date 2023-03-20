@@ -1,0 +1,55 @@
+.inputWrapper {
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkbox {
+  width: 6rem;
+  height: 3rem;
+  cursor: pointer;
+  appearance: none;
+  background: var(--alert);
+  border-radius: 0.5rem;
+  position: relative;
+  outline: 0;
+  transition: all 0.2s ease-in-out;
+  border: 0;
+  margin: 0;
+}
+
+.checkbox:after {
+  position: absolute;
+  content: "";
+  top: 3px;
+  left: 3px;
+  width: 2.4rem;
+  height: 2.4rem;
+  background: #dfeaec;
+  z-index: 2;
+  border-radius: 3px;
+  transition: all 0.35s;
+}
+
+.checkbox:checked {
+  background: var(--success);
+}
+
+.checkbox:checked:after {
+  left: calc(100% - 2.8rem);
+}
+
+.toggle {
+  color: var(--alert);
+
+  transition: all 0.25s ease-in-out;
+}
+
+.checkbox:checked + .toggle {
+  color: var(--success);
+}

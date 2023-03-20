@@ -18,7 +18,7 @@ class IngredientUserController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $orderCategories = ['Spirit', 'Liqueur', 'Mixer', 'Garnish'];
+        $orderCategories = ['Spirit', 'Liqueur', 'Alcohol', 'Mixer'];
         $ingredients = $user->ingredients->sortBy(function ($ingredient) use ($orderCategories) {
             return array_search($ingredient["category"], $orderCategories);
         });

@@ -17,16 +17,19 @@ function IngredientToggle(props) {
 
   return (
     <div key={props.id}>
-      <input
-        type="checkbox"
-        id={props.id}
-        name={props.id}
-        defaultChecked={checked}
-        onChange={toggledIngredient}
-      />
-      <label className={classes.propsToggle} htmlFor={props.id}>
-        {props.name}
-      </label>
+      <div className={classes.inputWrapper}>
+        <input
+          type="checkbox"
+          className={classes.checkbox}
+          id={props.id}
+          name={props.id}
+          defaultChecked={checked}
+          onChange={toggledIngredient}
+        />
+        <label className={classes.toggle} htmlFor={props.id}>
+          {props.name}
+        </label>
+      </div>
     </div>
   );
 }

@@ -15,9 +15,9 @@
 .heading {
   font-size: 2.4rem;
   text-align: center;
-  font-family: var(--font-text);
-  font-weight: 400;
-  margin-bottom: 1rem;
+  font-family: var(--font-title);
+  font-weight: 300;
+  margin-bottom: 2rem;
 }
 
 /* Categories section */
@@ -27,10 +27,23 @@
   border-right: 1px solid var(--dark);
 }
 
-.categoriesContainer a {
+.categoriesContainer button {
   color: var(--dark);
   font-size: 2rem;
   text-align: center;
+  margin: 1rem auto;
+}
+
+.categoriesContainer button:hover {
+  background-color: #111c;
+  color: var(--white);
+  padding: 1rem 1.3rem;
+}
+
+.categoriesContainer .active {
+  background-color: #111c;
+  color: var(--success);
+  padding: 1rem 1.3rem;
 }
 
 /* Ingredients section */
@@ -43,34 +56,39 @@
   display: flex;
   flex-direction: column;
   padding: 0 2rem;
+  height: 100%;
 
+  align-content: flex-start;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
 .ingredientsContainer > div > div {
   padding: 1rem 0;
+
+  max-height: 100%;
 }
 
 .ingredientsContainer label {
   font-size: 2rem;
   font-family: var(--font-text);
-  font-weight: 400;
+  font-weight: 500;
   margin: 1rem;
   cursor: pointer;
 }
 
 .ingredientsContainer input[type="checkbox"] {
-  appearance: none;
-  margin: 0;
+  /* appearance: none; */
+  /* margin: 0;
   width: auto;
   border: 0;
-  padding: 0;
+  padding: 0; */
 }
 
 .ingredientsContainer input[type="checkbox"]:checked + label {
-  color: var(--success);
+  /* color: var(--success); */
 }
 
 .ingredientsContainer input[type="checkbox"] + label {
-  color: var(--alert);
+  /* color: var(--alert); */
 }
