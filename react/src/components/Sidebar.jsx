@@ -11,7 +11,16 @@ function Sidebar() {
 
   useEffect(() => {
     if (token) {
-      getUser();
+      axiosClient
+        .get("/user")
+        .then(({ data }) => {
+          setUser(data);
+        })
+        .catch((err) => {
+          if (err.response.status == 401) {
+            setToken(null);
+          }
+        });
     }
   }, []);
 
@@ -22,19 +31,6 @@ function Sidebar() {
       setUser({});
       setToken(null);
     });
-  };
-
-  const getUser = () => {
-    axiosClient
-      .get("/user")
-      .then(({ data }) => {
-        setUser(data);
-      })
-      .catch((err) => {
-        if (err.response.status == 401) {
-          setToken(null);
-        }
-      });
   };
 
   return (

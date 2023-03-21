@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\IngredientRequest;
 use App\Http\Resources\IngredientResource;
 use App\Models\Ingredient;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class IngredientController extends Controller
@@ -30,11 +29,16 @@ class IngredientController extends Controller
     /**
      * Get category of ingredients marked with user ingredients
      */
-    public function userIngredients($category = "")
+    public function userIngredients($category = null)
     {
         // Gather the users ingredients and the categories ingredients
         $userIngredients = Auth::user()->ingredients;
         $ingredients = IngredientResource::collection(Ingredient::where('category', $category)->get());
+
+        // If no ingredients are returned
+        if ($ingredients->isEmpty()) {
+            return response(['Message' => 'No ingredients returned. Is the category name correct?']);
+        }
 
         // If the user has one of the ingredients, set userHas to true 
         foreach ($ingredients as $ingredient) {
@@ -67,8 +71,10 @@ class IngredientController extends Controller
      */
     public function destroy(Ingredient $ingredient)
     {
-        $ingredient->delete();
-
-        return response("", 204);
+        if (Auth::user()->isAdmin) {
+            $ingredient->delete();
+            return response(204);
+        }
+        return response(401);
     }
 }

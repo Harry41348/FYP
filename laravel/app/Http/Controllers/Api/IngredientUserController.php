@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\IngredientUserRequest;
 use App\Http\Resources\IngredientResource;
-use App\Models\Ingredient;
 use App\Models\IngredientUser;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class IngredientUserController extends Controller
@@ -36,7 +34,7 @@ class IngredientUserController extends Controller
         // Validate the data and ensure it does not exist
         $data = $request->validated();
         $data['user_id'] = Auth::id();
-        $exists = IngredientUser::where('user_id', Auth::id())->where('ingredient_id', $data['ingredient_id'])->exists();
+        $exists = IngredientUser::where('user_id', $data['user_id'])->where('ingredient_id', $data['ingredient_id'])->exists();
         if ($exists) {
             return response(['ingredient' => 'You already have this ingredient'], 409);
         }

@@ -6,7 +6,7 @@ function Modal({ children, path, closeModal }) {
   const navigate = useNavigate();
 
   function closeHandler() {
-    if (path == null) {
+    if (!path) {
       return navigate("/");
     }
     if (closeModal) {

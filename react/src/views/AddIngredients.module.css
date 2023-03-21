@@ -3,7 +3,6 @@
 .content {
   width: 60vw;
   height: 60vh;
-
   display: flex;
   background-color: #e9edf6;
 }
@@ -23,7 +22,7 @@
 /* Categories section */
 
 .categoriesContainer {
-  width: clamp(15rem, 18%, 35rem);
+  width: 18%;
   border-right: 1px solid var(--dark);
 }
 
@@ -52,43 +51,19 @@
   width: 100%;
 }
 
+.subHeading {
+  font-size: 1.8rem;
+  color: #010b13;
+  margin: 1.5rem 0;
+}
+
 .ingredientsContainer > div {
   display: flex;
-  flex-direction: column;
-  padding: 0 2rem;
-  height: 100%;
-
   align-content: flex-start;
   justify-content: flex-start;
   flex-wrap: wrap;
-}
+  flex-direction: column;
 
-.ingredientsContainer > div > div {
-  padding: 1rem 0;
-
-  max-height: 100%;
-}
-
-.ingredientsContainer label {
-  font-size: 2rem;
-  font-family: var(--font-text);
-  font-weight: 500;
-  margin: 1rem;
-  cursor: pointer;
-}
-
-.ingredientsContainer input[type="checkbox"] {
-  /* appearance: none; */
-  /* margin: 0;
-  width: auto;
-  border: 0;
-  padding: 0; */
-}
-
-.ingredientsContainer input[type="checkbox"]:checked + label {
-  /* color: var(--success); */
-}
-
-.ingredientsContainer input[type="checkbox"] + label {
-  /* color: var(--alert); */
+  padding: 0 2rem;
+  height: 62rem;
 }

@@ -1,11 +1,11 @@
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useStateContext } from "../contexts/ContextProvider";
+import axiosClient from "../axios-client";
+
+import AddIngredients from "./AddIngredients";
 import classes from "./MyBar.module.css";
 import { FiDelete } from "react-icons/fi";
-import { GrAdd } from "react-icons/gr";
-import { useEffect, useState } from "react";
-import axiosClient from "../axios-client";
-import { useStateContext } from "../contexts/ContextProvider";
-import { Navigate } from "react-router-dom";
-import AddIngredients from "./AddIngredients";
 
 function MyBar() {
   const [ingredientUsers, setIngredientUsers] = useState([]);

@@ -5,8 +5,8 @@ import IngredientToggle from "../components/MyBar/IngredientToggle";
 import classes from "./AddIngredients.module.css";
 
 function AddIngredients({ setAddIngredients, setIngredientUsers }) {
-  const [ingredients, setIngredients] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [ingredients, setIngredients] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("spirit");
 
   useEffect(() => {
@@ -81,7 +81,9 @@ function AddIngredients({ setAddIngredients, setIngredientUsers }) {
         </div>
         <div className={classes.ingredientsContainer}>
           <h3 className={classes.heading}>Ingredients</h3>
-          <p className="text-center">Tick off ingredients you have available</p>
+          <p className={"text-center " + classes.subHeading}>
+            Tick off ingredients you have available
+          </p>
           <div>
             {loading && <p>Loading...</p>}
             {!loading &&

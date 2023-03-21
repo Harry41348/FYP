@@ -66,4 +66,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Ingredient::class);
     }
+
+    public function isAdmin()
+    {
+        return $this->is_admin;
+    }
 }

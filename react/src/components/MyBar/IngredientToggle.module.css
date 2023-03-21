@@ -3,6 +3,7 @@
   height: fit-content;
   position: relative;
   cursor: pointer;
+  padding: 1rem 0;
 
   display: flex;
   justify-content: center;
@@ -18,7 +19,7 @@
   border-radius: 0.5rem;
   position: relative;
   outline: 0;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.35s ease-in-out;
   border: 0;
   margin: 0;
 }
@@ -44,12 +45,17 @@
   left: calc(100% - 2.8rem);
 }
 
-.toggle {
+.label {
   color: var(--alert);
+  font-size: 1.8rem;
+  font-family: var(--font-text);
+  font-weight: 500;
+  margin: 0.5rem 1rem;
+  cursor: pointer;
 
   transition: all 0.25s ease-in-out;
 }
 
-.checkbox:checked + .toggle {
+.checkbox:checked + .label {
   color: var(--success);
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Category;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class IngredientRequest extends FormRequest
 {
@@ -11,7 +13,11 @@ class IngredientRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        if (Auth::user()->isAdmin) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -23,7 +29,7 @@ class IngredientRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:ingredients,name',
-            'category' => 'required',
+            'category' => ['required', new Category], // TODO test this later
         ];
     }
 }
