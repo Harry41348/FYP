@@ -1,9 +1,11 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import RootLayout from "./components/RootLayout";
 import Recipes from "./views/Recipes";
+import MyBar from "./views/MyBar";
 import NotFound from "./views/NotFound";
 import Login from "./views/Login";
 import Register from "./views/Register";
+import AddIngredients from "./views/AddIngredients";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
       {
         path: "/recipes",
         element: <Recipes />,
+      },
+      {
+        path: "/my-bar",
+        element: <MyBar />,
+      },
+      {
+        path: "/add-ingredients",
+        element: <AddIngredients />,
       },
       {
         path: "*",

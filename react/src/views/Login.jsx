@@ -9,7 +9,7 @@ import axiosClient from "../axios-client";
 function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState(null);
   const { setUser, setToken } = useStateContext();
   const navigate = useNavigate();
 
@@ -33,7 +33,7 @@ function Login() {
       })
       .catch((err) => {
         const response = err.response;
-        if (response && response.status === 401) {
+        if (response && (response.status === 401 || response.status === 422)) {
           if (response.data.errors) {
             setErrors(response.data.errors);
           } else {

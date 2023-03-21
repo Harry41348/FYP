@@ -2,8 +2,8 @@ import classes from "./Recipes.module.css";
 
 function Recipes() {
   return (
-    <div className={classes.header}>
-      <h2 className={classes.heading}>Recipes</h2>
+    <div className="header">
+      <h2 className="heading">Recipes</h2>
     </div>
   );
 }

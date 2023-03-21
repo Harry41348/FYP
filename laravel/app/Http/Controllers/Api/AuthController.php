@@ -32,7 +32,7 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
-        // Validate the request credentials
+        // Validate the request credentials            
         $credentials = $request->validated();
 
         // Attempt to authenticate

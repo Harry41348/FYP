@@ -103,4 +103,39 @@ class UserTest extends TestCase
             'email' => $payload['email']
         ]);
     }
+
+    /**
+     * @test
+     * @dataProvider unauthorizedUrls
+     */
+    // Test unauthorized user
+    public function test_unauthorized_user($url, $requestType)
+    {
+        if ($requestType == "get") {
+            $response = $this->get($url);
+        } else if ($requestType == "post") {
+            $response = $this->post($url);
+        } else if ($requestType == "delete") {
+            $response = $this->delete($url);
+        }
+
+        // dd($response);
+        $response->assertStatus(302);
+        $response->assertRedirect('api/login');
+    }
+
+    public function unauthorizedUrls(): array
+    {
+        return [
+            ["/api/user", 'get'],
+            ["/api/logout", 'post'],
+            ["/api/ingredients", 'get'],
+            ["/api/ingredients/spirit", 'get'],
+            ["/api/ingredients/user/spirit", 'get'],
+            ["/api/user-ingredients", 'get'],
+            ["/api/user-ingredients/1", 'delete'],
+            ["/api/user-ingredients", 'post'],
+            ["/api/user-ingredients/toggle/1", 'post'],
+        ];
+    }
 }

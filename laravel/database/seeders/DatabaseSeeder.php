@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\IngredientSeeder;
+use Database\Seeders\IngredientUserSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,6 +16,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
+            IngredientSeeder::class,
+            IngredientUserSeeder::class,
         ]);
     }
 }

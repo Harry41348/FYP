@@ -13,7 +13,7 @@ function Register() {
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
 
-  const [errors, setErrors] = useState();
+  const [errors, setErrors] = useState(null);
   const { setUser, setToken } = useStateContext();
   const navigate = useNavigate();
 
