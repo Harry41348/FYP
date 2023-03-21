@@ -17,15 +17,15 @@ class IngredientUserController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
+        // Get the users ingredients and order by these categories
         $orderCategories = ['Spirit', 'Liqueur', 'Alcohol', 'Mixer'];
-        $ingredients = $user->ingredients->sortBy(function ($ingredient) use ($orderCategories) {
-            return array_search($ingredient["category"], $orderCategories);
-        });
+        $ingredients = Auth::user()->ingredients->sortBy(
+            function ($ingredient) use ($orderCategories) {
+                return array_search($ingredient["category"], $orderCategories);
+            }
+        );
 
-        $ingredientsRes = IngredientResource::collection($ingredients);
-
-        return response($ingredientsRes, 200);
+        return response(IngredientResource::collection($ingredients), 200);
     }
 
     /**
@@ -33,8 +33,10 @@ class IngredientUserController extends Controller
      */
     public function store(IngredientUserRequest $request)
     {
+        // Validate the data and ensure it does not exist
         $data = $request->validated();
-        $exists = IngredientUser::where('user_id', $data['user_id'])->where('ingredient_id', $data['ingredient_id'])->exists();
+        $data['user_id'] = Auth::id();
+        $exists = IngredientUser::where('user_id', Auth::id())->where('ingredient_id', $data['ingredient_id'])->exists();
         if ($exists) {
             return response(['ingredient' => 'You already have this ingredient'], 409);
         }
@@ -54,11 +56,11 @@ class IngredientUserController extends Controller
         $userHas = $userIngredient->exists();
 
         if ($userHas) {
-            // If ingredient, remove it
+            // If it exists, remove it
             $userIngredient->first()->delete();
             return response(['userHas' => false], 200);
         } else {
-            // If no ingredient, add it
+            // Else add it
             IngredientUser::create([
                 'user_id' => $userId,
                 'ingredient_id' => $id

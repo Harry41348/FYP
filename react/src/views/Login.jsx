@@ -33,7 +33,7 @@ function Login() {
       })
       .catch((err) => {
         const response = err.response;
-        if (response && response.status === 401) {
+        if (response && (response.status === 401 || response.status === 422)) {
           if (response.data.errors) {
             setErrors(response.data.errors);
           } else {

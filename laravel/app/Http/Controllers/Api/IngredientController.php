@@ -14,12 +14,14 @@ class IngredientController extends Controller
     /**
      * Show all ingredients or a category of ingredients
      */
-    public function index($category = "")
+    public function index($category = null)
     {
-        if ($category === "") {
-            $ingredients = IngredientResource::collection(Ingredient::all());
-        } else {
+        if ($category) {
+            // get the ingredients of the category requested
             $ingredients = IngredientResource::collection(Ingredient::where('category', $category)->get());
+        } else {
+            // get all ingredients
+            $ingredients = IngredientResource::collection(Ingredient::all());
         }
 
         return response($ingredients, 200);
@@ -30,10 +32,11 @@ class IngredientController extends Controller
      */
     public function userIngredients($category = "")
     {
-        $user = Auth::user();
-        $userIngredients = $user->ingredients;
+        // Gather the users ingredients and the categories ingredients
+        $userIngredients = Auth::user()->ingredients;
         $ingredients = IngredientResource::collection(Ingredient::where('category', $category)->get());
 
+        // If the user has one of the ingredients, set userHas to true 
         foreach ($ingredients as $ingredient) {
             if ($userIngredients->contains('id', $ingredient->id)) {
                 $ingredient->userHas = true;
@@ -51,6 +54,9 @@ class IngredientController extends Controller
     public function store(IngredientRequest $request)
     {
         $data = $request->validated();
+
+        // if($data->)
+        return $data;
 
         $ingredient = Ingredient::create($data);
         return response(new IngredientResource($ingredient), 201);

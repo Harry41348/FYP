@@ -30,8 +30,8 @@ class IngredientTest extends TestCase
         }
     }
 
-    // Test get ingredients
-    public function test_get_ingredients()
+    // Test get all ingredients
+    public function test_get_all_ingredients()
     {
         // Act as a user
         Sanctum::actingAs(
@@ -53,6 +53,51 @@ class IngredientTest extends TestCase
                             ->where('category', 'Spirit')
                             ->where('userHas', null)
                     )
+            );
+    }
+
+    // Test get ingredients in a category
+    public function test_get_ingredients_categories_spirits()
+    {
+        // Act as a user
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
+        // Send a get request to ingredients
+        $response = $this->get('/api/ingredients/spirit')->assertOk();
+
+        // Assert the the content the ingredients are in the response
+        $response
+            ->assertJson(
+                fn (AssertableJson $json) =>
+                $json->has(2)
+                    ->first(
+                        fn (AssertableJson $json) =>
+                        $json->where('id', 1)
+                            ->where('name', 'Vodka')
+                            ->where('category', 'Spirit')
+                            ->where('userHas', null)
+                    )
+            );
+    }
+
+    // Test get ingredients
+    public function test_get_ingredients_categories_non_existent()
+    {
+        // Act as a user
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
+        // Send a get request to ingredients
+        $response = $this->get('/api/ingredients/random')->assertOk();
+
+        // Assert the the content the ingredients are in the response
+        $response
+            ->assertJson(
+                fn (AssertableJson $json) =>
+                $json->has(0)
             );
     }
 
@@ -108,6 +153,52 @@ class IngredientTest extends TestCase
 
         // Assert the database has the new user ingredient
         $this->assertDatabaseHas('ingredient_user', [
+            'ingredient_id' => 1,
+            'user_id' => Auth::id()
+        ]);
+    }
+
+    // Test post user ingredient with different user_id
+    public function test_post_unauthorized_ingredient_user()
+    {
+        // Act as a user
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
+        $otherUser = User::factory()->create();
+
+        // Send a post request to user ingredients
+        $response = $this->post('/api/user-ingredients', [
+            'user_id' => $otherUser->id,
+            'ingredient_id' => 1
+        ])->assertCreated();
+
+        // Assert the database has the new user ingredient
+        $this->assertDatabaseMissing('ingredient_user', [
+            'ingredient_id' => 1,
+            'user_id' => $otherUser->id
+        ]);
+    }
+
+    // Test toggle ingredient
+    public function test_toggle_ingredient()
+    {
+        // Act as a user
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
+        // Toggle ingredient 1 and assert it is in the database
+        $this->post('/api/user-ingredients/toggle/1')->assertOK();
+        $this->assertDatabaseHas('ingredient_user', [
+            'ingredient_id' => 1,
+            'user_id' => Auth::id()
+        ]);
+
+        // Toggle ingredient 1 again and assert it is no longer in the database
+        $this->post('/api/user-ingredients/toggle/1')->assertOK();
+        $this->assertDatabaseMissing('ingredient_user', [
             'ingredient_id' => 1,
             'user_id' => Auth::id()
         ]);
