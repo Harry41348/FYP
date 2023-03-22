@@ -164,14 +164,14 @@ class IngredientTest extends TestCase
     public function test_toggle_ingredient()
     {
         // Toggle ingredient 1 and assert it is in the database
-        $this->post('/api/user-ingredients/toggle/1')->assertOK();
+        $this->put('/api/user-ingredients/toggle/1')->assertOK();
         $this->assertDatabaseHas('ingredient_user', [
             'ingredient_id' => 1,
             'user_id' => Auth::id()
         ]);
 
         // Toggle ingredient 1 again and assert it is no longer in the database
-        $this->post('/api/user-ingredients/toggle/1')->assertOK();
+        $this->put('/api/user-ingredients/toggle/1')->assertOK();
         $this->assertDatabaseMissing('ingredient_user', [
             'ingredient_id' => 1,
             'user_id' => Auth::id()

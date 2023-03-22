@@ -8,7 +8,7 @@ function IngredientToggle(props) {
 
   const toggledIngredient = () => {
     axiosClient
-      .post(`/user-ingredients/toggle/${props.id}`)
+      .put(`/user-ingredients/toggle/${props.id}`)
       .then(({ data }) => {
         setChecked(data.userHas);
       })

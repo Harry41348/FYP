@@ -115,6 +115,8 @@ class UserTest extends TestCase
             $response = $this->get($url);
         } else if ($requestType == "post") {
             $response = $this->post($url);
+        } else if ($requestType == "put") {
+            $response = $this->put($url);
         } else if ($requestType == "delete") {
             $response = $this->delete($url);
         }
@@ -135,7 +137,7 @@ class UserTest extends TestCase
             ["/api/user-ingredients", 'get'],
             ["/api/user-ingredients/1", 'delete'],
             ["/api/user-ingredients", 'post'],
-            ["/api/user-ingredients/toggle/1", 'post'],
+            ["/api/user-ingredients/toggle/1", 'put'],
         ];
     }
 }

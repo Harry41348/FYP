@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class IngredientUser extends Model
+class Recipe extends Model
 {
     use HasFactory;
-
-    protected $table = "ingredient_user";
 
     /**
      * The attributes that are mass assignable.
@@ -17,7 +15,9 @@ class IngredientUser extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'ingredient_id',
+        'name',
+        'instructions',
         'user_id',
+        'is_recommended'
     ];
 }
