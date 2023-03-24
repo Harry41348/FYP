@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import axiosClient from "../axios-client";
-import Modal from "../components/Modal";
-import IngredientToggle from "../components/MyBar/IngredientToggle";
+import axiosClient from "../../axios-client";
+import Modal from "../../components/Modal";
+import IngredientToggle from "../../components/MyBar/IngredientToggle";
 import classes from "./AddIngredients.module.css";
 
 function AddIngredients({ setAddIngredients, setIngredientUsers }) {
@@ -34,7 +34,7 @@ function AddIngredients({ setAddIngredients, setIngredientUsers }) {
   };
 
   return (
-    <Modal path="/my-bar" closeModal={closeAddIngredients}>
+    <Modal closeModal={closeAddIngredients}>
       <div className={classes.content}>
         <div className={classes.categoriesContainer}>
           <h3 className={classes.heading}>Categories</h3>

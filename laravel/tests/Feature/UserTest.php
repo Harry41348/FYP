@@ -14,6 +14,8 @@ class UserTest extends TestCase
         // Create a user
         $user = User::factory()->create();
 
+        $this->withHeader('Accept', 'application/json');
+
         // Send a login request with the credentials
         $response = $this->post('/api/login', [
             'email' => $user->email,

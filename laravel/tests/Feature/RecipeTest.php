@@ -20,6 +20,8 @@ class RecipeTest extends TestCase
             User::factory()->create()
         );
 
+        $this->withHeader('Accept', 'application/json');
+
         // Set up the dummy recipes
         Recipe::factory()->count(5)->create();
     }
@@ -86,22 +88,22 @@ class RecipeTest extends TestCase
      * @dataProvider unauthorizedUrls
      */
     // Test store recipe with invalid input
-    public function test_invalid_create_recipe($name, $instructions, $errorName, $errorMessage)
+    public function test_invalid_create_recipe($name, $instructions)
     {
-        $response = $this->post('/api/recipes', [
+        $this->post('/api/recipes', [
             'name' => $name,
             'instructions' => $instructions,
             'is_recommended' => false,
-        ])->assertStatus(302);
-
-        $response->assertSessionHasErrors([$errorName => $errorMessage]);
+        ])->assertStatus(422);
     }
 
     public function unauthorizedUrls(): array
     {
         return [
-            ["Strawberry Daquiri", "", "instructions", "The instructions field is required."],
-            ["", "Pour ingredients together.", "name", "The name field is required."],
+            ["Strawberry Daquiri", ""],
+            ["", "Pour ingredients together.",],
+            ["", "",],
+            ["SD", "Pour ingredients together.",],
         ];
     }
 
@@ -141,14 +143,11 @@ class RecipeTest extends TestCase
             'is_recommended' => false,
         ]);
 
-        $response = $this->put('/api/recipes/' . $recipe->id, [
+        $this->put('/api/recipes/' . $recipe->id, [
             'name' => "Pina Colada",
             'instructions' => "",
             'is_recommended' => true,
-        ])->assertStatus(302);
-
-        // dd($response);
-        $response->assertSessionHasErrors(['instructions' => 'The instructions field is required.']);
+        ])->assertStatus(422);
     }
 
     // Test delete recipe

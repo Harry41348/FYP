@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use TypeError;
 
 class Handler extends ExceptionHandler
 {
@@ -41,8 +42,8 @@ class Handler extends ExceptionHandler
      */
     public function register(): void
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (TypeError $e) {
+            return response()->json(['message' => 'Data type is incorrect.'], 400);
         });
     }
 }

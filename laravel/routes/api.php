@@ -49,4 +49,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // Recipes
 Route::get('/recipes', [RecipeController::class, 'index']);
+Route::get('/recipes/saved', [RecipeController::class, 'savedRecipes']);
+Route::get('/recipes/recommended', [RecipeController::class, 'recommendedRecipes']);
+Route::get('/recipes/my-bar', [RecipeController::class, 'myBarRecipes']);
 Route::get('/recipes/{recipe}', [RecipeController::class, 'show']);

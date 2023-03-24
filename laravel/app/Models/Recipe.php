@@ -20,4 +20,9 @@ class Recipe extends Model
         'user_id',
         'is_recommended'
     ];
+
+    public function ingredients()
+    {
+        return $this->hasMany(IngredientRecipe::class);
+    }
 }

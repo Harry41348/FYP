@@ -21,6 +21,8 @@ class IngredientTest extends TestCase
             User::factory()->create()
         );
 
+        $this->withHeader('Accept', 'application/json');
+
         // Set up the dummy ingredients
         $ingredients = [
             ['name' => 'Vodka', 'category' => 'Spirit'],

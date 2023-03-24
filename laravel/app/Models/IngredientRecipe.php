@@ -22,4 +22,9 @@ class IngredientRecipe extends Model
         'amount',
         'measurement'
     ];
+
+    public function ingredient()
+    {
+        return $this->hasOne(Ingredient::class);
+    }
 }

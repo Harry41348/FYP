@@ -69,6 +69,7 @@ class IngredientSeeder extends Seeder
             ['name' => 'Egg White', 'category' => 'Mixer'],
             ['name' => 'Single Cream', 'category' => 'Mixer'],
             ['name' => 'Espresso coffee', 'category' => 'Mixer'],
+            ['name' => 'Cream of coconut', 'category' => 'Mixer'],
         ];
 
         foreach ($ingredients as $ingredient) {

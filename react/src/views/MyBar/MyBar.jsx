@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-import { useStateContext } from "../contexts/ContextProvider";
-import axiosClient from "../axios-client";
+import { useStateContext } from "../../contexts/ContextProvider";
+import axiosClient from "../../axios-client";
 
 import AddIngredients from "./AddIngredients";
 import classes from "./MyBar.module.css";
@@ -50,9 +50,7 @@ function MyBar() {
         // setNotification("Ingredient Removed"); TODO notifications
         getIngredientUsers();
       })
-      .catch((err) => {
-        console.error(err);
-      });
+      .catch((err) => {});
   };
 
   return (
