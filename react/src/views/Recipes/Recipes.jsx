@@ -1,4 +1,5 @@
 import { Outlet } from "react-router";
+import { Link } from "react-router-dom";
 import RecipeGroup from "../../components/Recipes/RecipeGroup";
 import classes from "./Recipes.module.css";
 
@@ -7,30 +8,42 @@ function Recipes() {
     <div className={classes.main}>
       <Outlet />
 
-      <div className="header">
+      <div className={"header " + classes.header}>
         <h2 className="heading">Recipes</h2>
+        <input type="text" className="search-bar" placeholder="Search.." />
+        <Link className="btn" to="/recipes/create">
+          Create Recipe
+        </Link>
       </div>
       <div className={classes.content}>
-        <div>
-          <h3>Saved</h3>
-          <RecipeGroup url="/saved" />
-          <button className="btn">View all</button>
+        <aside className={classes.sidebar}>
+          <div className={"toggleWrapper " + classes.toggle}>
+            <input
+              type="checkbox"
+              className="checkbox"
+              id="recommendedToggle"
+            />
+            <label className="label" htmlFor="recommendedToggle">
+              Recommended
+            </label>
+          </div>
+          <div className={"toggleWrapper " + classes.toggle}>
+            <input type="checkbox" className="checkbox" id="savedToggle" />
+            <label className="label" htmlFor="savedToggle">
+              Saved
+            </label>
+          </div>
+          <div className={"toggleWrapper " + classes.toggle}>
+            <input type="checkbox" className="checkbox" id="availableToggle" />
+            <label className="label" htmlFor="availableToggle">
+              Available Recipes
+            </label>
+          </div>
+        </aside>
+        <div className={classes.recipesContainer}>
+          <RecipeGroup />
         </div>
-        <div>
-          <h3>Community</h3>
-          <RecipeGroup url="" />
-          <button className="btn">View all</button>
-        </div>
-        <div>
-          <h3>Recommended</h3>
-          <RecipeGroup url="/recommended" />
-          <button className="btn">View all</button>
-        </div>
-        <div>
-          <h3>Your Bar</h3>
-          <RecipeGroup url="/my-bar" />
-          <button className="btn">View all</button>
-        </div>
+        <div />
       </div>
     </div>
   );

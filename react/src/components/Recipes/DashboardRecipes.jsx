@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../../axios-client";
 
-import classes from "./RecipeGroup.module.css";
+import classes from "./DashboardRecipes.module.css";
 
-function RecipeGroup() {
+function DashboardRecipes({ filter }) {
   const [loading, setLoading] = useState(true);
   const [recipes, setRecipes] = useState({});
   const [message, setMessage] = useState("");
@@ -16,8 +16,17 @@ function RecipeGroup() {
   const getRecipes = () => {
     setLoading(true);
 
+    const requestBody = {
+      take: 4,
+      shuffle: true,
+    };
+
+    if (filter) {
+      requestBody[filter] = true;
+    }
+
     axiosClient
-      .get(`/recipes`)
+      .get(`/recipes`, { params: requestBody })
       .then(({ data }) => {
         setLoading(false);
         if (data.message != null) {
@@ -32,10 +41,8 @@ function RecipeGroup() {
   };
 
   return (
-    <div className={`${classes.container}`}>
-      {loading && Object.keys(recipes).length > 0 && (
-        <p className={classes.message}>Loading recipes...</p>
-      )}
+    <div className={`ml-6 ${classes.recipesContainer}`}>
+      {loading && <p className={classes.message}>Loading recipes...</p>}
       {!loading && message && <p className={classes.message}>{message}</p>}
       {!loading &&
         Object.keys(recipes).length > 0 &&
@@ -52,4 +59,4 @@ function RecipeGroup() {
   );
 }
 
-export default RecipeGroup;
+export default DashboardRecipes;

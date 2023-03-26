@@ -18,7 +18,13 @@ class Recipe extends Model
         'name',
         'instructions',
         'user_id',
+        'image',
         'is_recommended'
+    ];
+
+    protected $attributes = [
+        'image' => null,
+        'is_recommended' => false,
     ];
 
     public function ingredients()

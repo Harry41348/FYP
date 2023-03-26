@@ -1,0 +1,35 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex-grow: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.content h3 {
+  font-size: 2.4rem;
+  width: 30rem;
+  text-align: center;
+  border-right: 1px solid var(--dark);
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  height: 100%;
+}
+
+.wrapper > * {
+  height: 24rem;
+  display: flex;
+  align-items: center;
+}

@@ -4,7 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\IngredientController;
 use App\Http\Controllers\Api\IngredientUserController;
 use App\Http\Controllers\Api\RecipeController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\IngredientRecipeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -39,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Recipes
     Route::post('/recipes', [RecipeController::class, 'store']);
+    Route::get('/recipes/validate', [RecipeController::class, 'validateRecipe']);
+    Route::post('/recipes/ingredient', [IngredientRecipeController::class, 'store']);
     Route::put('/recipes/{recipe}', [RecipeController::class, 'update']);
     Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy']);
 });
@@ -49,7 +51,4 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 // Recipes
 Route::get('/recipes', [RecipeController::class, 'index']);
-Route::get('/recipes/saved', [RecipeController::class, 'savedRecipes']);
-Route::get('/recipes/recommended', [RecipeController::class, 'recommendedRecipes']);
-Route::get('/recipes/my-bar', [RecipeController::class, 'myBarRecipes']);
 Route::get('/recipes/{recipe}', [RecipeController::class, 'show']);

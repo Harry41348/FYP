@@ -108,3 +108,28 @@
 }
 
 /* Recipes section */
+
+.recipesContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  width: 60rem;
+  margin: 0 auto;
+}
+
+.recipe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 1rem;
+  width: 18rem;
+  height: 18rem;
+  background-color: #333;
+  color: var(--white);
+  font-family: var(--font-title);
+  text-transform: capitalize;
+  text-decoration: none;
+}

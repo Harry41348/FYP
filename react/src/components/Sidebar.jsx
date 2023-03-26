@@ -1,6 +1,7 @@
 import classes from "./Sidebar.module.css";
 import { FaGlassMartiniAlt, FaGraduationCap } from "react-icons/fa";
-import { BiBook } from "react-icons/bi";
+import { ImBook } from "react-icons/im";
+import { AiFillHome } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useEffect } from "react";
@@ -37,8 +38,12 @@ function Sidebar() {
     <aside className={classes.sidebar}>
       <div>
         <h1 className={classes.heading}>Mixxy</h1>
+        <Link className="btn-sidebar" to="/">
+          <AiFillHome />
+          <span>Dashboard</span>
+        </Link>
         <Link className="btn-sidebar" to="/recipes">
-          <BiBook />
+          <ImBook />
           <span>Recipes</span>
         </Link>
         <Link className="btn-sidebar" to="/my-bar">

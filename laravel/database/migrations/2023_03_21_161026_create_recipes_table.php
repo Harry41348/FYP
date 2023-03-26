@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('instructions');
             $table->foreignId('user_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
+            $table->string('image')->nullable();
             $table->boolean('is_recommended');
             $table->timestamps();
         });

@@ -3,18 +3,15 @@
   margin-right: 4rem;
 }
 
-.container {
+.recipesContainer {
   display: flex;
-  width: 104rem;
-  flex-wrap: wrap;
-  justify-content: center;
 }
 
-.container > a {
-  width: 24rem;
-  height: 24rem;
+.recipesContainer > a {
+  width: 20rem;
+  height: 20rem;
   padding: 2rem;
-  margin: 1rem 1rem;
+  margin: 0 2rem;
   background-color: #333;
 
   display: flex;
@@ -22,7 +19,7 @@
   justify-content: center;
 }
 
-.container a {
+.recipesContainer a {
   color: var(--white);
   font-family: var(--font-title);
   font-size: 2rem;

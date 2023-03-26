@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import axiosClient from "../../axios-client";
 
@@ -9,31 +9,51 @@ import { FiDelete } from "react-icons/fi";
 
 function MyBar() {
   const [ingredientUsers, setIngredientUsers] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loadingIngredient, setLoadingIngredients] = useState(false);
   const [addIngredient, setAddIngredient] = useState(false);
+  const [recipes, setRecipes] = useState({});
+  const [loadingRecipes, setLoadingRecipes] = useState(false);
   const { token } = useStateContext();
-
-  useEffect(() => {
-    if (token) {
-      getIngredientUsers();
-    }
-  }, []);
 
   if (!token) {
     return <Navigate to="/login" />;
   }
 
+  useEffect(() => {
+    getIngredientUsers();
+    getRecipes();
+  }, []);
+
   const getIngredientUsers = () => {
-    setLoading(true);
+    setLoadingIngredients(true);
 
     axiosClient
       .get("/user-ingredients")
       .then(({ data }) => {
-        setLoading(false);
+        setLoadingIngredients(false);
         setIngredientUsers(data);
       })
       .catch((err) => {
-        setLoading(false);
+        setLoadingIngredients(false);
+      });
+  };
+
+  const getRecipes = () => {
+    setLoadingRecipes(true);
+
+    const requestBody = {
+      shuffle: true,
+      available: true,
+    };
+
+    axiosClient
+      .get("/recipes", { params: requestBody })
+      .then(({ data }) => {
+        setLoadingRecipes(false);
+        setRecipes(data);
+      })
+      .catch((err) => {
+        setLoadingRecipes(false);
       });
   };
 
@@ -71,12 +91,6 @@ function MyBar() {
             <h3 className={classes.ingredientsHeading}>Your Ingredients</h3>
             <div className={classes.addIngredient}>
               <p>
-                {/* <button
-                  className="btn btn-round"
-                  onClick={(ev) => setAddIngredient(true)}
-                >
-                  <GrAdd />
-                </button> */}
                 <button
                   className="btn"
                   onClick={(ev) => setAddIngredient(true)}
@@ -95,12 +109,12 @@ function MyBar() {
               </tr>
             </thead>
             <tbody>
-              {loading && (
+              {loadingIngredient && (
                 <tr>
                   <td colSpan={5}>Loading...</td>
                 </tr>
               )}
-              {!loading &&
+              {!loadingIngredient &&
                 ingredientUsers.map((ingredientUser) => (
                   <tr key={ingredientUser.id}>
                     <td>{ingredientUser.name}</td>
@@ -119,7 +133,25 @@ function MyBar() {
           </table>
         </div>
         <div className={classes.recipes}>
-          <h3>Recipes</h3>
+          <h3>Available Recipes</h3>
+          {!loadingRecipes && Object.keys(recipes).length == 0 && (
+            <p className={classes.message}>
+              Add more ingredients to see recipes.
+            </p>
+          )}
+          <div className={classes.recipesContainer}>
+            {!loadingRecipes &&
+              Object.keys(recipes).length > 0 &&
+              recipes.map((recipe) => (
+                <Link
+                  to={`/recipes/${recipe.id}`}
+                  className={classes.recipe}
+                  key={recipe.id}
+                >
+                  <p>{recipe.name}</p>
+                </Link>
+              ))}
+          </div>
         </div>
       </div>
     </>

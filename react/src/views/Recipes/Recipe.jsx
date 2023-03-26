@@ -1,25 +1,46 @@
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import { useStateContext } from "../../contexts/ContextProvider";
 import axiosClient from "../../axios-client";
 import Modal from "../../components/Modal";
 
 import classes from "./Recipe.module.css";
 
 function Recipe(props) {
+  const { user } = useStateContext();
   const [loading, setLoading] = useState(false);
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
   const params = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
 
-    axiosClient.get(`/recipes/${params["id"]}`).then(({ data }) => {
-      setLoading(false);
-      setRecipe(data.recipe);
-      setIngredients(data.ingredients);
-    });
+    axiosClient
+      .get(`/recipes/${params["id"]}`)
+      .then(({ data }) => {
+        setLoading(false);
+        setRecipe(data.recipe);
+        setIngredients(data.ingredients);
+      })
+      .catch(() => {
+        return navigate("/recipes");
+      });
   }, []);
+
+  const deleteRecipe = () => {
+    axiosClient
+      .delete(`/recipes/${params["id"]}`)
+      .then(({ data }) => {
+        return navigate("/recipes");
+      })
+      .catch((err) => {
+        // Error notification
+        console.error(err);
+      });
+  };
 
   return (
     <Modal path="/recipes">
@@ -47,6 +68,12 @@ function Recipe(props) {
             <h4>Recipe</h4>
             <p className="text-center">{recipe.instructions}</p>
           </div>
+          {/* <button className="btn">Edit</button> */}
+          {user && user.id == recipe.user_id && (
+            <button className="btn mt-2" onClick={deleteRecipe}>
+              Delete
+            </button>
+          )}
         </div>
       )}
     </Modal>

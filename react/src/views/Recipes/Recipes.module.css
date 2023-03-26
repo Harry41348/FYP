@@ -1,28 +1,27 @@
-.main {
+.header {
   display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  justify-content: space-between;
 }
 
 .content {
-  flex-grow: 1;
-
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-start;
   justify-content: center;
-  align-items: center;
 }
 
 .content > * {
   flex: 1;
+}
 
+.sidebar {
   display: flex;
+  flex-direction: column;
+
   align-items: center;
 }
 
-.content h3 {
-  font-size: 2.4rem;
-  width: 30rem;
-  text-align: center;
-  border-right: 1px solid var(--dark);
+.sidebar .toggle {
+  width: 21rem;
+  justify-content: flex-start;
 }

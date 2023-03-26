@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\IngredientRecipeRequest;
 use App\Http\Requests\RecipeRequest;
 use App\Http\Resources\IngredientRecipeResource;
 use App\Http\Resources\IngredientResource;
 use App\Http\Resources\RecipeResource;
 use App\Models\Ingredient;
+use App\Models\IngredientRecipe;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,41 +21,31 @@ class RecipeController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->take) {
-            $recipes = Recipe::all()->shuffle()->take($request->take);
-        } else {
-            $recipes = Recipe::all()->shuffle();
+        $recipes = Recipe::all();
+
+        if ($request->recommended) {
+            $recipes = $recipes->where('is_recommended', 1);
         }
-        return response(RecipeResource::collection($recipes, 200));
-    }
+        if ($request->available && auth('sanctum')->check()) {
+            $userIngredientIds = auth('sanctum')->user()->ingredients()->allRelatedIds()->toArray();
 
-    /**
-     * Display a listing of saved saved recipes.
-     */
-    public function savedRecipes(Request $request)
-    {
-        return response(['message' => 'No saved recipes.'], 200);
-    }
-
-    /**
-     * Display a listing of saved saved recipes.
-     */
-    public function recommendedRecipes(Request $request)
-    {
-        if ($request->take) {
-            $recipes = Recipe::where('is_recommended', true)->get()->shuffle()->take($request->take);
-        } else {
-            $recipes = Recipe::where('is_recommended', 1)->get()->shuffle();
+            foreach ($recipes as $id => $recipe) {
+                foreach ($recipe->ingredients as $ingredient) {
+                    if (!in_array($ingredient->ingredient_id, $userIngredientIds)) {
+                        $recipes->forget($id);
+                        break;
+                    }
+                }
+            }
         }
-        return response(RecipeResource::collection($recipes, 200));
-    }
+        if ($request->shuffle) {
+            $recipes = $recipes->shuffle();
+        }
+        if ($request->take) {
+            $recipes = $recipes->take($request->take);
+        }
 
-    /**
-     * Display a listing of saved saved recipes.
-     */
-    public function myBarRecipes(Request $request)
-    {
-        return response(['message' => 'No recipes with available ingredients.'], 200);
+        return response(RecipeResource::collection($recipes), 200);
     }
 
     /**
@@ -61,10 +53,48 @@ class RecipeController extends Controller
      */
     public function store(RecipeRequest $request)
     {
+        if (Auth::guest()) {
+            return response("", 401);
+        }
+
         $data = $request->validated();
         $data['user_id'] = Auth::id();
 
-        return response(Recipe::create($data), 201);
+        $recipe = Recipe::create($data);
+
+        foreach ($request['ingredients'] as $ingredient) {
+            $request = new Request($ingredient);
+            $request->validate([
+                'ingredient_id' => 'required|exists:ingredients,id',
+                'amount' => 'required',
+                'measurement' => 'required'
+            ]);
+            IngredientRecipe::create([
+                'ingredient_id' => $request->ingredient_id,
+                'recipe_id' => $recipe->id,
+                'amount' => $request->amount,
+                'measurement' => $request->measurement
+            ]);;
+        }
+
+        return response($recipe, 201);
+    }
+
+    /**
+     * Validate a recipe
+     */
+    public function validateRecipe(Request $request)
+    {
+        if (Auth::guest()) {
+            return response("", 401);
+        }
+
+        $request->validate([
+            'name' => 'required|min:3|max:32|unique:recipes,name',
+            'instructions' => 'required',
+        ]);
+
+        return response(true, 200);
     }
 
     /**
