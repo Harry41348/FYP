@@ -16,17 +16,17 @@ function DashboardRecipes({ filter }) {
   const getRecipes = () => {
     setLoading(true);
 
-    const requestBody = {
+    const requestParams = {
       take: 4,
       shuffle: true,
     };
 
     if (filter) {
-      requestBody[filter] = true;
+      requestParams[filter] = true;
     }
 
     axiosClient
-      .get(`/recipes`, { params: requestBody })
+      .get(`/recipes`, { params: requestParams })
       .then(({ data }) => {
         setLoading(false);
         if (data.message != null) {
