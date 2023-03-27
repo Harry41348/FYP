@@ -45,6 +45,10 @@ function Recipe(props) {
       });
   };
 
+  const editRecipe = () => {
+    return navigate(`/recipes/edit/${params["id"]}`);
+  };
+
   return (
     <Modal path="/recipes">
       {loading && <p>Loading</p>}
@@ -73,9 +77,14 @@ function Recipe(props) {
           </div>
           {/* <button className="btn">Edit</button> */}
           {user && user.id == recipe.user_id && (
-            <button className="btn mt-2" onClick={deleteRecipe}>
-              Delete
-            </button>
+            <>
+              <button className="btn mt-2" onClick={editRecipe}>
+                Edit
+              </button>
+              <button className="btn mt-2" onClick={deleteRecipe}>
+                Delete
+              </button>
+            </>
           )}
         </div>
       )}

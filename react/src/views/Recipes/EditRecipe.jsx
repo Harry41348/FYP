@@ -1,15 +1,22 @@
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router";
-import axiosClient from "../../axios-client";
-import Modal from "../../components/Modal";
+import { useNavigate, useParams } from "react-router";
 import { useStateContext } from "../../contexts/ContextProvider";
-import classes from "./AddRecipe.module.css";
 
-function AddRecipe() {
-  const { token } = useStateContext();
-  const navigate = useNavigate();
+import axiosClient from "../../axios-client";
+import AddIngredientsForm from "../../components/Recipes/CreateRecipes/AddIngredientsForm";
+import CreateRecipeForm from "../../components/Recipes/CreateRecipes/CreateRecipeForm";
+import classes from "./CreateRecipe.module.css";
+
+function CreateRecipe() {
   const [errors, setErrors] = useState(null);
+  const [step, setStep] = useState(1);
+  const [recipe, setRecipe] = useState({});
+  const [ingredients, setIngredients] = useState([]);
+  const [addIngredient, setAddIngredient] = useState(false);
+  const { token, user } = useStateContext();
 
+  const params = useParams();
+  const navigate = useNavigate();
   const nameRef = useRef();
   const instructionsRef = useRef();
 
@@ -17,22 +24,36 @@ function AddRecipe() {
     if (!token) {
       return navigate("/login");
     }
-  });
 
-  const onSubmit = (e) => {
+    axiosClient
+      .get(`/recipes/${params["id"]}`)
+      .then(({ data }) => {
+        setRecipe(data.recipe);
+        setIngredients(data.ingredients);
+      })
+      .catch(() => {
+        return navigate("/recipes");
+      });
+  }, []);
+
+  const onSubmitRecipe = (e) => {
     e.preventDefault();
 
+    setErrors(null);
+
     const payload = {
+      id: params["id"],
       name: nameRef.current.value,
       instructions: instructionsRef.current.value,
     };
 
-    setErrors(null);
-
     axiosClient
-      .post("/recipes", payload)
+      .get("/recipes/validate", { params: payload })
       .then(({ data }) => {
-        return navigate("/recipes");
+        if (data == true) {
+          setStep(2);
+          setRecipe(payload);
+        }
       })
       .catch((err) => {
         const response = err.response;
@@ -48,36 +69,84 @@ function AddRecipe() {
       });
   };
 
+  const onCreate = (e) => {
+    e.preventDefault();
+
+    setErrors(null);
+
+    const payload = {
+      name: recipe.name,
+      instructions: recipe.instructions,
+      ingredients: ingredients,
+    };
+
+    axiosClient
+      .put(`/recipes/${params["id"]}`, payload)
+      .then(({ data }) => {
+        // TODO notification
+        return navigate(`/recipes/${data.id}`);
+      })
+      .catch(({ response }) => {
+        const status = response.status;
+        if (response && (status === 401 || status === 422 || status)) {
+          if (response.data.errors) {
+            setErrors(response.data.errors);
+          } else if (response.data.error) {
+            setErrors({
+              error: [response.data.error],
+            });
+          } else {
+            setErrors({
+              error: [response.data.message],
+            });
+          }
+        }
+      });
+  };
+
+  const onBack = () => {
+    setStep(1);
+  };
+
+  const addIngredientFromForm = (ingredient) => {
+    setIngredients([...ingredients, ingredient]);
+  };
+
+  const removeIngredientFromForm = (ev, ingredient) => {
+    ev.preventDefault();
+
+    // Set ingredients to a new array of ingredients with the target ingredient removed
+    const newIngredients = [...ingredients];
+    newIngredients.splice(ingredients.indexOf(ingredient), 1);
+    setIngredients([...newIngredients]);
+  };
+
   return (
     <div className={classes.wrapper}>
-      <form method="POST" onSubmit={onSubmit} className={classes.form}>
-        <h3>New Recipe</h3>
-        {errors && (
-          <div className="alert">
-            {Object.keys(errors).map((key) => (
-              <p key={key}>{errors[key][0]}</p>
-            ))}
-          </div>
-        )}
-        <input ref={nameRef} type="text" placeholder="Cocktail Name" />
-        <div className="flex">
-          <div className={classes.image}></div>
-          <div className={classes.ingredients}>
-            <h4>Ingredients</h4>
-            {/* <input type="text" placeholder="Cocktail Name" />
-          <input type="text" placeholder="Cocktail Name" />
-          <input type="text" placeholder="Cocktail Name" /> */}
-          </div>
-        </div>
-        <div className={classes.recipe}>
-          <h4>Recipe</h4>
-          <p className="text-center"></p>
-        </div>
-        <textarea ref={instructionsRef} placeholder="Instructions" />
-        <button className="btn">Create</button>
-      </form>
+      {step == 1 && (
+        <CreateRecipeForm
+          onSubmitRecipe={onSubmitRecipe}
+          errors={errors}
+          nameRef={nameRef}
+          recipe={recipe}
+          instructionsRef={instructionsRef}
+        />
+      )}
+
+      {step == 2 && (
+        <AddIngredientsForm
+          addIngredient={addIngredient}
+          removeIngredient={removeIngredientFromForm}
+          addIngredientFromForm={addIngredientFromForm}
+          setAddIngredient={setAddIngredient}
+          onCreate={onCreate}
+          errors={errors}
+          ingredients={ingredients}
+          onBack={onBack}
+        />
+      )}
     </div>
   );
 }
 
-export default AddRecipe;
+export default CreateRecipe;

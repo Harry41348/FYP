@@ -4,9 +4,9 @@ import axiosClient from "../../axios-client";
 import AddIngredientsForm from "../../components/Recipes/CreateRecipes/AddIngredientsForm";
 import CreateRecipeForm from "../../components/Recipes/CreateRecipes/CreateRecipeForm";
 import { useStateContext } from "../../contexts/ContextProvider";
-import classes from "./AddRecipe.module.css";
+import classes from "./CreateRecipe.module.css";
 
-function AddRecipe() {
+function CreateRecipe() {
   const [errors, setErrors] = useState(null);
   const [step, setStep] = useState(1);
   const [recipe, setRecipe] = useState({});
@@ -136,4 +136,4 @@ function AddRecipe() {
   );
 }
 
-export default AddRecipe;
+export default CreateRecipe;

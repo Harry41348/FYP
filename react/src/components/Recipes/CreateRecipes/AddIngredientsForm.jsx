@@ -67,7 +67,7 @@ function AddIngredientsForm({
           >
             Back
           </button>
-          <button className="btn">Create</button>
+          <button className="btn">Submit</button>
         </div>
       </form>
     </>

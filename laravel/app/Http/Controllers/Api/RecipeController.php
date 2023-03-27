@@ -104,10 +104,19 @@ class RecipeController extends Controller
             return response(['error' => 'You must be authenticated to create a recipe.'], 401);
         }
 
-        $request->validate([
-            'name' => 'required|min:3|max:32|unique:recipes,name',
-            'instructions' => 'required',
-        ]);
+        if ($request->id) {
+            $recipe = Recipe::find($request->id);
+
+            $request->validate([
+                'name' => 'required|min:3|max:32|unique:recipes,name,' . $recipe->id,
+                'instructions' => 'required',
+            ]);
+        } else {
+            $request->validate([
+                'name' => 'required|min:3|max:32|unique:recipes,name',
+                'instructions' => 'required',
+            ]);
+        }
 
         return response(true, 200);
     }
@@ -130,9 +139,13 @@ class RecipeController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(RecipeRequest $request, Recipe $recipe)
+    public function update(Request $request, Recipe $recipe)
     {
-        $data = $request->validated();
+        $data = $request->validate([
+            'name' => 'required|min:3|max:32|unique:recipes,name,' . $recipe->id,
+            'instructions' => 'required',
+            'ingredients' => 'required'
+        ]);
 
         if ($recipe->user_id != Auth::id()) {
             return response(['error' => 'Unauthorised to modify this recipe.'], 401);
