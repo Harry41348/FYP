@@ -21,6 +21,8 @@ class IngredientTest extends TestCase
             User::factory()->create()
         );
 
+        $this->withHeader('Accept', 'application/json');
+
         // Set up the dummy ingredients
         $ingredients = [
             ['name' => 'Vodka', 'category' => 'Spirit'],
@@ -139,7 +141,7 @@ class IngredientTest extends TestCase
     }
 
     // Test post user ingredient with different user_id
-    public function test_post_unauthorized_ingredient_user()
+    public function test_post_unauthorised_ingredient_user()
     {
         $user = User::factory()->create();
 
@@ -164,14 +166,14 @@ class IngredientTest extends TestCase
     public function test_toggle_ingredient()
     {
         // Toggle ingredient 1 and assert it is in the database
-        $this->post('/api/user-ingredients/toggle/1')->assertOK();
+        $this->put('/api/user-ingredients/toggle/1')->assertOK();
         $this->assertDatabaseHas('ingredient_user', [
             'ingredient_id' => 1,
             'user_id' => Auth::id()
         ]);
 
         // Toggle ingredient 1 again and assert it is no longer in the database
-        $this->post('/api/user-ingredients/toggle/1')->assertOK();
+        $this->put('/api/user-ingredients/toggle/1')->assertOK();
         $this->assertDatabaseMissing('ingredient_user', [
             'ingredient_id' => 1,
             'user_id' => Auth::id()

@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Ingredient;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class IngredientSeeder extends Seeder
@@ -53,8 +52,8 @@ class IngredientSeeder extends Seeder
             ['name' => 'Grenadine Syrup', 'category' => 'Mixer'], // Mixers
             ['name' => 'Sugar Syrup', 'category' => 'Mixer'],
             ['name' => 'Agave Syrup', 'category' => 'Mixer'],
-            ['name' => 'Lime', 'category' => 'Mixer'],
-            ['name' => 'Lemon', 'category' => 'Mixer'],
+            ['name' => 'Lime juice', 'category' => 'Mixer'],
+            ['name' => 'Lemon juice', 'category' => 'Mixer'],
             ['name' => 'Apple juice', 'category' => 'Mixer'],
             ['name' => 'Orange juice', 'category' => 'Mixer'],
             ['name' => 'Pineapple juice', 'category' => 'Mixer'],
@@ -70,6 +69,9 @@ class IngredientSeeder extends Seeder
             ['name' => 'Egg White', 'category' => 'Mixer'],
             ['name' => 'Single Cream', 'category' => 'Mixer'],
             ['name' => 'Espresso coffee', 'category' => 'Mixer'],
+            ['name' => 'Cream of coconut', 'category' => 'Mixer'],
+            ['name' => 'Strawberry', 'category' => 'Mixer'],
+            ['name' => 'Cucumber Vodka', 'category' => 'Spirit'],
         ];
 
         foreach ($ingredients as $ingredient) {

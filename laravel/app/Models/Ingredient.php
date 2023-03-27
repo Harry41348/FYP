@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Auth;
 
 class Ingredient extends Model
 {
@@ -36,5 +34,10 @@ class Ingredient extends Model
     public function users()
     {
         return $this->BelongsToMany(User::class);
+    }
+
+    public function recipes()
+    {
+        return $this->belongsToMany(Recipe::class);
     }
 }

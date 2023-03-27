@@ -8,7 +8,7 @@ function IngredientToggle(props) {
 
   const toggledIngredient = () => {
     axiosClient
-      .post(`/user-ingredients/toggle/${props.id}`)
+      .put(`/user-ingredients/toggle/${props.id}`)
       .then(({ data }) => {
         setChecked(data.userHas);
       })
@@ -16,16 +16,16 @@ function IngredientToggle(props) {
   };
 
   return (
-    <div key={props.id} className={classes.inputWrapper}>
+    <div key={props.id} className="toggleWrapper">
       <input
         type="checkbox"
-        className={classes.checkbox}
+        className="checkbox"
         id={props.id}
         name={props.id}
         defaultChecked={checked}
         onChange={toggledIngredient}
       />
-      <label className={classes.label} htmlFor={props.id}>
+      <label className="label" htmlFor={props.id}>
         {props.name}
       </label>
     </div>

@@ -4,10 +4,10 @@ const axiosClient = axios.create({
     baseURL: `${import.meta.env.VITE_APP_BASE_URL}/api`
 })
 
-
 axiosClient.interceptors.request.use((config) => {
     const token = localStorage.getItem('ACCESS_TOKEN')
     config.headers.Authorization = `Bearer ${token}`
+    config.headers.Accept = 'application/json'
     return config;
 })
 
@@ -20,7 +20,7 @@ axiosClient.interceptors.response.use((response) => {
             localStorage.removeItem('ACCESS_TOKEN')
         }
     } catch(e) {
-        console.error(e);
+        
     }
 
     throw error;

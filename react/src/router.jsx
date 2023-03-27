@@ -1,47 +1,34 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import RootLayout from "./components/RootLayout";
-import Recipes from "./views/Recipes";
-import MyBar from "./views/MyBar";
-import NotFound from "./views/NotFound";
+import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
 import Register from "./views/Register";
-import AddIngredients from "./views/AddIngredients";
+import Recipes from "./views/Recipes/Recipes";
+import Recipe from "./views/Recipes/Recipe";
+import CreateRecipe from "./views/Recipes/CreateRecipe";
+import EditRecipe from "./views/Recipes/EditRecipe";
+import MyBar from "./views/MyBar/MyBar";
+import EditUserIngredients from "./components/MyBar/EditUserIngredients";
+import NotFound from "./views/NotFound";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      {
-        path: "/",
-        element: <Navigate to="/recipes" />,
-      },
-      {
-        path: "/login",
-        element: <Login />,
-      },
-      {
-        path: "/register",
-        element: <Register />,
-      },
-      {
-        path: "/recipes",
-        element: <Recipes />,
-      },
-      {
-        path: "/my-bar",
-        element: <MyBar />,
-      },
-      {
-        path: "/add-ingredients",
-        element: <AddIngredients />,
-      },
-      {
-        path: "*",
-        element: <NotFound />,
-      },
-    ],
-  },
-]);
+function Router() {
+  return (
+    <Routes>
+      <Route path="/" element={<RootLayout />}>
+        <Route path="/" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/recipes" element={<Recipes />}>
+          <Route path="/recipes/:id" element={<Recipe />} />
+        </Route>
+        <Route path="/recipes/create" element={<CreateRecipe />} />
+        <Route path="/recipes/edit/:id" element={<EditRecipe />} />
+        <Route path="/my-bar" element={<MyBar />} />
+        <Route path="/add-ingredients" element={<EditUserIngredients />} />
+        <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
+  );
+}
 
-export default router;
+export default Router;

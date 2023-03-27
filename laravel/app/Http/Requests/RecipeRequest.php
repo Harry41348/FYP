@@ -3,16 +3,16 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
+use Illuminate\Support\Facades\Auth;
 
-class RegisterRequest extends FormRequest
+class RecipeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**
@@ -23,14 +23,9 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:32,min:3',
-            'last_name' => 'required|string|max:32,min:3',
-            'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)->mixedCase()->numbers(),
-            ]
+            'name' => 'required|min:3|max:32|unique:recipes,name',
+            'instructions' => 'required',
+            'ingredients' => 'required'
         ];
     }
 }

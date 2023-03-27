@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
-class RegisterRequest extends FormRequest
+class IngredientRecipeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +22,10 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'first_name' => 'required|string|max:32,min:3',
-            'last_name' => 'required|string|max:32,min:3',
-            'email' => 'required|email|unique:users,email',
-            'password' => [
-                'required',
-                'confirmed',
-                Password::min(8)->mixedCase()->numbers(),
-            ]
+            'ingredient_id' => 'required|exists:ingredients,id',
+            'recipe_id' => 'required|exists:recipes,id',
+            'amount' => 'required',
+            'measurement' => 'required'
         ];
     }
 }

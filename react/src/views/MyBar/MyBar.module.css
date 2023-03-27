@@ -59,52 +59,29 @@
   font-size: 2.4rem;
 }
 
-/* Table */
-
-.table {
-  border-collapse: collapse;
-  border-radius: 2rem;
-  overflow: hidden;
-
-  margin: 2.5rem auto;
-  font-size: 1.6rem;
-  font-family: var(--font-text);
-  min-width: 50rem;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-}
-
-.table thead tr {
-  background-color: var(--colour-secondary);
-  color: #ffffff;
-  text-align: center;
-}
-
-.table th,
-.table td {
-  padding: 12px 15px;
-}
-
-.table tbody tr {
-  border-bottom: 1px solid #dddddd;
-}
-
-.table tbody tr:nth-of-type(even) {
-  background-color: #f3f3f3;
-}
-
-.table .deleteButton {
-  border: none;
-}
-
-.table svg {
-  font-size: 2.2rem;
-  vertical-align: middle;
-  transition: all 0.3s ease-in-out;
-}
-
-.table svg:hover {
-  cursor: pointer;
-  color: var(--alert);
-}
-
 /* Recipes section */
+
+.recipesContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  width: 60rem;
+  margin: 0 auto;
+}
+
+.recipe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 1rem;
+  width: 18rem;
+  height: 18rem;
+  background-color: #333;
+  color: var(--white);
+  font-family: var(--font-title);
+  text-transform: capitalize;
+  text-decoration: none;
+}

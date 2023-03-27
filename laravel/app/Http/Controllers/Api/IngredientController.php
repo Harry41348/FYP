@@ -73,8 +73,8 @@ class IngredientController extends Controller
     {
         if (Auth::user()->isAdmin) {
             $ingredient->delete();
-            return response(204);
+            return response("", 204);
         }
-        return response(401);
+        return response("", 401);
     }
 }
