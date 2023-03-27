@@ -105,10 +105,8 @@ class RecipeController extends Controller
         }
 
         if ($request->id) {
-            $recipe = Recipe::find($request->id);
-
             $request->validate([
-                'name' => 'required|min:3|max:32|unique:recipes,name,' . $recipe->id,
+                'name' => 'required|min:3|max:32|unique:recipes,name,' . $request->id,
                 'instructions' => 'required',
             ]);
         } else {
