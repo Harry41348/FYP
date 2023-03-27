@@ -25,15 +25,15 @@ class RecipeController extends Controller
         $recipes = Recipe::all();
 
         // Filters out by user created recipes
-        if ($request->created && auth('sanctum')->check()) {
+        if ($request->created == "true" && auth('sanctum')->check()) {
             $recipes = $recipes->where('user_id', auth('sanctum')->id());
         }
         // Filters out by recommended recipes
-        if ($request->recommended) {
+        if ($request->recommended == "true") {
             $recipes = $recipes->where('is_recommended', 1);
         }
         // Filters out by recipes the user can make with their ingredients
-        if ($request->available && auth('sanctum')->check()) {
+        if ($request->available == "true" && auth('sanctum')->check()) {
             $userIngredientIds = auth('sanctum')->user()->ingredients()->allRelatedIds()->toArray();
 
             foreach ($recipes as $id => $recipe) {
@@ -46,11 +46,11 @@ class RecipeController extends Controller
             }
         }
         // Shuffles recipes
-        if ($request->shuffle) {
+        if ($request->shuffle == "true") {
             $recipes = $recipes->shuffle();
         }
         // How many recipes to take
-        if ($request->take) {
+        if ($request->take == "true") {
             $recipes = $recipes->take($request->take);
         }
 

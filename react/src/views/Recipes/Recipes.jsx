@@ -1,11 +1,54 @@
+import { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router";
 import { Link } from "react-router-dom";
+import axiosClient from "../../axios-client";
 import RecipeGroup from "../../components/Recipes/RecipeGroup";
 import { useStateContext } from "../../contexts/ContextProvider";
 import classes from "./Recipes.module.css";
 
 function Recipes() {
   const { token } = useStateContext();
+
+  const [loading, setLoading] = useState(false);
+  const [recipes, setRecipes] = useState({});
+  const [message, setMessage] = useState("");
+
+  const recommendRef = useRef();
+  const shuffleRef = useRef();
+  const savedRef = useRef();
+  const availableRef = useRef();
+  const createdRef = useRef();
+
+  useEffect(() => {
+    getRecipes();
+  }, []);
+
+  const getRecipes = () => {
+    setLoading(true);
+
+    const requestParams = {
+      recommended: recommendRef.current.checked,
+      shuffle: shuffleRef.current.checked,
+      saved: savedRef.current.checked,
+      available: availableRef.current.checked,
+      created: createdRef.current.checked,
+    };
+
+    axiosClient
+      .get(`/recipes`, { params: requestParams })
+      .then(({ data }) => {
+        console.log(data);
+        setLoading(false);
+        if (data.message != null) {
+          setMessage(data.message);
+        } else {
+          setRecipes(data);
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+      });
+  };
 
   return (
     <div className={classes.main}>
@@ -20,8 +63,18 @@ function Recipes() {
       </div>
       <div className={classes.content}>
         <aside className={classes.sidebar}>
+          <button
+            className="btn"
+            onClick={(e) => {
+              e.preventDefault();
+              getRecipes();
+            }}
+          >
+            Refresh
+          </button>
           <div className={"toggleWrapper " + classes.toggle}>
             <input
+              ref={recommendRef}
               type="checkbox"
               className="checkbox"
               id="recommendedToggle"
@@ -30,16 +83,33 @@ function Recipes() {
               Recommended
             </label>
           </div>
+          <div className={"toggleWrapper " + classes.toggle}>
+            <input
+              ref={shuffleRef}
+              type="checkbox"
+              className="checkbox"
+              id="shuffleToggle"
+            />
+            <label className="label" htmlFor="shuffleToggle">
+              Shuffle
+            </label>
+          </div>
           {token && (
             <>
               <div className={"toggleWrapper " + classes.toggle}>
-                <input type="checkbox" className="checkbox" id="savedToggle" />
+                <input
+                  ref={savedRef}
+                  type="checkbox"
+                  className="checkbox"
+                  id="savedToggle"
+                />
                 <label className="label" htmlFor="savedToggle">
                   Saved
                 </label>
               </div>
               <div className={"toggleWrapper " + classes.toggle}>
                 <input
+                  ref={availableRef}
                   type="checkbox"
                   className="checkbox"
                   id="availableToggle"
@@ -50,6 +120,7 @@ function Recipes() {
               </div>
               <div className={"toggleWrapper " + classes.toggle}>
                 <input
+                  ref={createdRef}
                   type="checkbox"
                   className="checkbox"
                   id="availableToggle"
@@ -62,7 +133,7 @@ function Recipes() {
           )}
         </aside>
         <div className={classes.recipesContainer}>
-          <RecipeGroup />
+          <RecipeGroup loading={loading} message={message} recipes={recipes} />
         </div>
         <div />
       </div>
