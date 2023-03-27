@@ -19,7 +19,6 @@ class IngredientRecipeFactory extends Factory
     public function definition(): array
     {
         return [
-            'measurement' => 'oz',
             'amount' => fake()->numberBetween(1, 5),
             'ingredient_id' => Ingredient::all()->random()->id,
             'recipe_id' => Recipe::all()->random()->id,

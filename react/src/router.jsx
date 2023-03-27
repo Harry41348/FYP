@@ -1,14 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import RootLayout from "./components/RootLayout";
-import Recipes from "./views/Recipes/Recipes";
-import MyBar from "./views/MyBar/MyBar";
-import NotFound from "./views/NotFound";
+import Dashboard from "./views/Dashboard";
 import Login from "./views/Login";
 import Register from "./views/Register";
-import AddIngredients from "./views/MyBar/AddIngredients";
+import Recipes from "./views/Recipes/Recipes";
 import Recipe from "./views/Recipes/Recipe";
-import Dashboard from "./views/Dashboard";
 import AddRecipe from "./views/Recipes/AddRecipe";
+import MyBar from "./views/MyBar/MyBar";
+import EditUserIngredients from "./components/MyBar/EditUserIngredients";
+import NotFound from "./views/NotFound";
 
 function Router() {
   return (
@@ -22,7 +22,7 @@ function Router() {
         </Route>
         <Route path="/recipes/create" element={<AddRecipe />} />
         <Route path="/my-bar" element={<MyBar />} />
-        <Route path="/add-ingredients" element={<AddIngredients />} />
+        <Route path="/add-ingredients" element={<EditUserIngredients />} />
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>

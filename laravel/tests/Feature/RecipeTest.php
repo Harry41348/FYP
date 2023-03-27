@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\Ingredient;
+use App\Models\IngredientRecipe;
 use App\Models\Recipe;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +17,9 @@ class RecipeTest extends TestCase
     {
         parent::SetUp();
 
-        // Set up acting as a user
-        Sanctum::actingAs(
-            User::factory()->create()
-        );
-
         $this->withHeader('Accept', 'application/json');
+
+        $user = User::factory()->create();
 
         // Set up the dummy recipes
         Recipe::factory()->count(5)->create();
@@ -43,6 +42,7 @@ class RecipeTest extends TestCase
     // Test show recipe
     public function test_show_recipe()
     {
+        // Create a dummy recipe
         $recipe = Recipe::factory()->create([
             'name' => 'Strawberry Daquiri',
             'instructions' => 'Pour ingredients together.',
@@ -53,43 +53,94 @@ class RecipeTest extends TestCase
         // Send get recipe request
         $response = $this->get('/api/recipes/' . $recipe->id)->assertOk();
 
-        $response->assertJson(
-            fn (AssertableJson $json) =>
-            $json->where('user_id', Auth::id())
-                ->where('name', 'Strawberry Daquiri')
-                ->where('instructions', 'Pour ingredients together.')
-                ->where('is_recommended', 1)
-                ->etc()
+        $response->assertJson([
+            'recipe' => [
+                'id' => $recipe->id,
+                'name' => 'Strawberry Daquiri',
+                'instructions' => 'Pour ingredients together.',
+                'user_id' => Auth::id()
+            ]
+        ]);
+    }
+
+    // Test validate recipe
+    public function test_validate_recipe()
+    {
+        Sanctum::actingAs(
+            User::factory()->create()
         );
+
+        $this->get('/api/recipes/validate?name=New+cocktail&instructions=Testing')->assertOk();
+    }
+
+    // Test unauthorised validate recipe
+    public function test_unauthorised_validate_recipe()
+    {
+        $this->get('/api/recipes/validate?name=New+cocktail&instructions=Testing')->assertUnauthorized();
+    }
+
+    // Test invalid validate recipe
+    public function test_invalid_validate_recipe()
+    {
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
+        $this->get('/api/recipes/validate?name=New+cocktail')->assertUnprocessable();
     }
 
     // Test store recipe
     public function test_create_recipe()
     {
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
+        // Create ingredient to go with the recipe
+        Ingredient::factory()->create([
+            'name' => 'Vodka',
+            'category' => 'Spirit'
+        ]);
         $response = $this->post('/api/recipes', [
             'name' => "Strawberry Daquiri",
             'instructions' => "Pour ingredients together.",
             'is_recommended' => false,
+            'ingredients' => [
+                "0" => [
+                    "ingredient_id" => 1,
+                    "amount" => 3,
+                    "measurement" => "oz"
+                ]
+            ]
         ])->assertCreated();
 
-        $response->assertJson(
-            fn (AssertableJson $json) =>
-            $json->where('user_id', Auth::id())
-                ->where('name', 'Strawberry Daquiri')
-                ->where('instructions', 'Pour ingredients together.')
-                ->where('is_recommended', false)
-                ->etc()
-        );
+        // Assert the returned data and database
+        $response->assertJson([
+            'name' => 'Strawberry Daquiri',
+            'instructions' => 'Pour ingredients together.',
+            'user_id' => Auth::id(),
+        ]);
+        $this->assertDatabaseHas('ingredient_recipe', [
+            'ingredient_id' => 1,
+            'recipe_id' => 6,
+            'amount' => 3,
+            'measurement' => 'oz'
+        ]);
     }
 
 
     /**
      * @test
-     * @dataProvider unauthorizedUrls
+     * @dataProvider unauthorisedUrls
      */
     // Test store recipe with invalid input
     public function test_invalid_create_recipe($name, $instructions)
     {
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
+        // Send a post request with invalid data
         $this->post('/api/recipes', [
             'name' => $name,
             'instructions' => $instructions,
@@ -97,7 +148,7 @@ class RecipeTest extends TestCase
         ])->assertStatus(422);
     }
 
-    public function unauthorizedUrls(): array
+    public function unauthorisedUrls(): array
     {
         return [
             ["Strawberry Daquiri", ""],
@@ -107,9 +158,28 @@ class RecipeTest extends TestCase
         ];
     }
 
+    // Test storing recipe unauthorised
+    public function test_unauthorised_create_recipe()
+    {
+        $this->post('/api/recipes', [
+            'name' => 'Old Fashioned',
+            'instructions' => 'Add ingredients to a rocks glass, and stir.',
+            'is_recommended' => true,
+        ])->assertStatus(401);
+    }
+
     // Test update recipe
     public function test_update_recipe()
     {
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
+        // Create ingredient to go with the update
+        Ingredient::factory()->create([
+            'name' => 'Vodka',
+            'category' => 'Spirit'
+        ]);
         $recipe = Recipe::factory()->create([
             'name' => 'Strawberry Daquiri',
             'instructions' => 'Pour ingredients together.',
@@ -117,25 +187,46 @@ class RecipeTest extends TestCase
             'is_recommended' => false,
         ]);
 
+        // Update the recipe
         $response = $this->put('/api/recipes/' . $recipe->id, [
             'name' => "Pina Colada",
             'instructions' => "Blend ingredients together.",
-            'is_recommended' => true,
+            'ingredients' => [
+                "0" => [
+                    "ingredient_id" => 1,
+                    "amount" => 3,
+                    "measurement" => "oz"
+                ]
+            ]
         ])->assertOk();
 
-        $response->assertJson(
-            fn (AssertableJson $json) =>
-            $json->where('user_id', Auth::id())
-                ->where('name', 'Pina Colada')
-                ->where('instructions', 'Blend ingredients together.')
-                ->where('is_recommended', true)
-                ->etc()
-        );
+        $response->assertJson([
+            'name' => 'Pina Colada',
+            'instructions' => 'Blend ingredients together.',
+            'user_id' => Auth::id(),
+        ]);
+
+        $this->assertDatabaseHas('recipes', [
+            'name' => 'Pina Colada',
+            'instructions' => 'Blend ingredients together.',
+            'user_id' => Auth::id()
+        ]);
+
+        $this->assertDatabaseHas('ingredient_recipe', [
+            'ingredient_id' => 1,
+            'recipe_id' => $recipe->id,
+            'amount' => 3,
+            'measurement' => 'oz'
+        ]);
     }
 
-    // Test update recipe
+    // Test invalid recipe
     public function test_invalid_update_recipe()
     {
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
         $recipe = Recipe::factory()->create([
             'name' => 'Strawberry Daquiri',
             'instructions' => 'Pour ingredients together.',
@@ -150,9 +241,41 @@ class RecipeTest extends TestCase
         ])->assertStatus(422);
     }
 
+    // Test unauthorised update recipe
+    public function test_unauthorised_update_recipe()
+    {
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
+        $recipe = Recipe::factory()->create([
+            'name' => 'Strawberry Daquiri',
+            'instructions' => 'Pour ingredients together.',
+            'user_id' => 1,
+            'is_recommended' => false,
+        ]);
+
+        $this->put('/api/recipes/' . $recipe->id, [
+            'name' => "Pina Colada",
+            'instructions' => "New instructions",
+            'is_recommended' => true,
+            'ingredients' => [
+                "0" => [
+                    "ingredient_id" => 1,
+                    "amount" => 3,
+                    "measurement" => "oz"
+                ]
+            ]
+        ])->assertUnauthorized();
+    }
+
     // Test delete recipe
     public function test_delete_recipe()
     {
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
         $recipe = Recipe::factory()->create([
             'name' => 'Strawberry Daquiri',
             'instructions' => 'Pour ingredients together.',
@@ -171,14 +294,17 @@ class RecipeTest extends TestCase
         ]);
     }
 
-    // Test delete recipe
-    public function test_user_cant_delete_unauthorized_recipe()
+    // Test delete recipe as unauthenticated user
+    public function test_unauthorised_delete_recipe()
     {
-        $user = User::factory()->create();
+        Sanctum::actingAs(
+            User::factory()->create()
+        );
+
         $recipe = Recipe::factory()->create([
             'name' => 'Strawberry Daquiri',
             'instructions' => 'Pour ingredients together.',
-            'user_id' => $user->id,
+            'user_id' => 1,
             'is_recommended' => false,
         ]);
 
@@ -186,7 +312,7 @@ class RecipeTest extends TestCase
             'name' => 'Strawberry Daquiri'
         ]);
 
-        $response = $this->delete('/api/recipes/' . $recipe->id)->assertUnauthorized();
+        $this->delete('/api/recipes/' . $recipe->id)->assertUnauthorized();
 
         $this->assertDatabaseHas('recipes', [
             'name' => 'Strawberry Daquiri'

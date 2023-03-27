@@ -141,7 +141,7 @@ class IngredientTest extends TestCase
     }
 
     // Test post user ingredient with different user_id
-    public function test_post_unauthorized_ingredient_user()
+    public function test_post_unauthorised_ingredient_user()
     {
         $user = User::factory()->create();
 

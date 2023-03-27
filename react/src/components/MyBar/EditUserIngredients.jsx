@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import axiosClient from "../../axios-client";
-import Modal from "../../components/Modal";
-import IngredientToggle from "../../components/MyBar/IngredientToggle";
-import classes from "./AddIngredients.module.css";
+import Modal from "../Modal";
+import IngredientToggle from "./IngredientToggle";
+import classes from "./EditUserIngredients.module.css";
 
-function AddIngredients({ setAddIngredients, setIngredientUsers }) {
+function EditUserIngredients({ setEditIngredients, loadIngredients }) {
   const [ingredients, setIngredients] = useState([]);
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState("spirit");
@@ -28,13 +28,13 @@ function AddIngredients({ setAddIngredients, setIngredientUsers }) {
       });
   };
 
-  const closeAddIngredients = () => {
-    setAddIngredients(false);
-    setIngredientUsers();
+  const closeEditIngredients = () => {
+    loadIngredients();
+    setEditIngredients(false);
   };
 
   return (
-    <Modal closeModal={closeAddIngredients}>
+    <Modal closeModal={closeEditIngredients}>
       <div className={classes.content}>
         <div className={classes.categoriesContainer}>
           <h3 className={classes.heading}>Categories</h3>
@@ -102,4 +102,4 @@ function AddIngredients({ setAddIngredients, setIngredientUsers }) {
   );
 }
 
-export default AddIngredients;
+export default EditUserIngredients;

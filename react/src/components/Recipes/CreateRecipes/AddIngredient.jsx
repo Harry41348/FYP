@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import axiosClient from "../../axios-client";
-import Modal from "../../components/Modal";
+import axiosClient from "../../../axios-client";
+import Modal from "../../Modal";
 import classes from "./AddIngredient.module.css";
 
 function AddIngredient({ setAddIngredient, addIngredientFromForm }) {
@@ -55,6 +55,12 @@ function AddIngredient({ setAddIngredient, addIngredientFromForm }) {
 
   const closeModal = () => {
     setAddIngredient(false);
+  };
+
+  const changeIngredient = () => {
+    setIngredient({});
+    getIngredients("spirit");
+    setStep(1);
   };
 
   return (
@@ -126,28 +132,33 @@ function AddIngredient({ setAddIngredient, addIngredientFromForm }) {
           </>
         )}
         {step == 2 && (
-          <form
-            className={classes.form}
-            method="POST"
-            onSubmit={(e) => onSubmitIngredient(e, ingredient)}
-          >
-            <h3>Add ingredient</h3>
-            <p>Ingredient: {ingredient.name}</p>
-            <div className={classes.inputContainer}>
-              <label htmlFor="amount">Amount</label>
-              <input ref={amountRef} id="amount" max={99} type="number" />
-            </div>
-            <div className={classes.inputContainer}>
-              <label htmlFor="">Measurement</label>
-              <input
-                ref={measurementRef}
-                id="measurement"
-                type="text"
-                defaultValue="oz"
-              />
-            </div>
-            <button className="btn">Add Ingredient</button>
-          </form>
+          <>
+            <form
+              className={classes.form}
+              method="POST"
+              onSubmit={(e) => onSubmitIngredient(e, ingredient)}
+            >
+              <h3>Add ingredient</h3>
+              <p>Ingredient: {ingredient.name}</p>
+              <div className={classes.inputContainer}>
+                <label htmlFor="amount">Amount</label>
+                <input ref={amountRef} id="amount" max={99} type="number" />
+              </div>
+              <div className={classes.inputContainer}>
+                <label htmlFor="">Measurement</label>
+                <input
+                  ref={measurementRef}
+                  id="measurement"
+                  type="text"
+                  defaultValue="oz"
+                />
+              </div>
+              <button className="btn">Add Ingredient</button>
+              <button className="btn" onClick={changeIngredient}>
+                Change ingredient
+              </button>
+            </form>
+          </>
         )}
       </div>
     </Modal>

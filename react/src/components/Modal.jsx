@@ -12,7 +12,7 @@ function Modal({ children, path, closeModal }) {
     if (closeModal) {
       return closeModal();
     }
-    return navigate("/");
+    return navigate("../");
   }
 
   return (

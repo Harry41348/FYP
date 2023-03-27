@@ -23,6 +23,10 @@ class IngredientRecipe extends Model
         'measurement'
     ];
 
+    protected $attributes = [
+        'measurement' => 'oz'
+    ];
+
     public function ingredient()
     {
         return $this->hasOne(Ingredient::class);

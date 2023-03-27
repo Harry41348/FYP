@@ -11,6 +11,7 @@ class UserTest extends TestCase
     // Test login
     public function test_login()
     {
+
         // Create a user
         $user = User::factory()->create();
 
@@ -108,10 +109,10 @@ class UserTest extends TestCase
 
     /**
      * @test
-     * @dataProvider unauthorizedUrls
+     * @dataProvider unauthorisedUrls
      */
-    // Test unauthorized user
-    public function test_unauthorized_user($url, $requestType)
+    // Test unauthorised user
+    public function test_unauthorised_user($url, $requestType)
     {
         if ($requestType == "get") {
             $response = $this->get($url);
@@ -128,7 +129,7 @@ class UserTest extends TestCase
         $response->assertRedirect('api/login');
     }
 
-    public function unauthorizedUrls(): array
+    public function unauthorisedUrls(): array
     {
         return [
             ["/api/user", 'get'],

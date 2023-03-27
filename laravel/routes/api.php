@@ -40,9 +40,11 @@ Route::middleware('auth:sanctum')->group(function () {
     //Recipes
     Route::post('/recipes', [RecipeController::class, 'store']);
     Route::get('/recipes/validate', [RecipeController::class, 'validateRecipe']);
-    Route::post('/recipes/ingredient', [IngredientRecipeController::class, 'store']);
     Route::put('/recipes/{recipe}', [RecipeController::class, 'update']);
     Route::delete('/recipes/{recipe}', [RecipeController::class, 'destroy']);
+
+    // Recipe Ingredients
+    Route::post('/recipes/ingredient', [IngredientRecipeController::class, 'store']);
 });
 
 // Auth

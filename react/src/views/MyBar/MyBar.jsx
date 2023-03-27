@@ -3,35 +3,36 @@ import { Link, Navigate } from "react-router-dom";
 import { useStateContext } from "../../contexts/ContextProvider";
 import axiosClient from "../../axios-client";
 
-import AddIngredients from "./AddIngredients";
 import classes from "./MyBar.module.css";
-import { FiDelete } from "react-icons/fi";
+import UserIngredientsTable from "../../components/MyBar/UserIngredientsTable";
+import EditUserIngredients from "../../components/MyBar/EditUserIngredients";
 
 function MyBar() {
-  const [ingredientUsers, setIngredientUsers] = useState([]);
-  const [loadingIngredient, setLoadingIngredients] = useState(false);
-  const [addIngredient, setAddIngredient] = useState(false);
+  const [userIngredients, setUserIngredients] = useState([]);
+  const [loadingIngredients, setLoadingIngredients] = useState(false);
+  const [editIngredients, setEditIngredients] = useState(false);
   const [recipes, setRecipes] = useState({});
   const [loadingRecipes, setLoadingRecipes] = useState(false);
   const { token } = useStateContext();
 
+  // If there is no token, the user will be redirected to login
   if (!token) {
     return <Navigate to="/login" />;
   }
 
   useEffect(() => {
-    getIngredientUsers();
+    getUserIngredients();
     getRecipes();
   }, []);
 
-  const getIngredientUsers = () => {
+  const getUserIngredients = () => {
     setLoadingIngredients(true);
 
     axiosClient
       .get("/user-ingredients")
       .then(({ data }) => {
         setLoadingIngredients(false);
-        setIngredientUsers(data);
+        setUserIngredients(data);
       })
       .catch((err) => {
         setLoadingIngredients(false);
@@ -57,28 +58,12 @@ function MyBar() {
       });
   };
 
-  const onDelete = (id) => {
-    if (
-      !window.confirm("Are you sure you would like to remove this ingredient?")
-    ) {
-      return;
-    }
-
-    axiosClient
-      .delete(`/user-ingredients/${id}`)
-      .then((response) => {
-        // setNotification("Ingredient Removed"); TODO notifications
-        getIngredientUsers();
-      })
-      .catch((err) => {});
-  };
-
   return (
     <>
-      {addIngredient && (
-        <AddIngredients
-          setIngredientUsers={getIngredientUsers}
-          setAddIngredients={setAddIngredient}
+      {editIngredients && (
+        <EditUserIngredients
+          setEditIngredients={setEditIngredients}
+          loadIngredients={getUserIngredients}
         />
       )}
       <div className="header">
@@ -89,48 +74,22 @@ function MyBar() {
           <div className={classes.ingredientsHeader}>
             <div />
             <h3 className={classes.ingredientsHeading}>Your Ingredients</h3>
-            <div className={classes.addIngredient}>
+            <div className={classes.editIngredients}>
               <p>
                 <button
                   className="btn"
-                  onClick={(ev) => setAddIngredient(true)}
+                  onClick={(ev) => setEditIngredients(true)}
                 >
                   Add
                 </button>
               </p>
             </div>
           </div>
-          <table className={classes.table}>
-            <thead>
-              <tr>
-                <th>Ingredient</th>
-                <th>Category</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {loadingIngredient && (
-                <tr>
-                  <td colSpan={5}>Loading...</td>
-                </tr>
-              )}
-              {!loadingIngredient &&
-                ingredientUsers.map((ingredientUser) => (
-                  <tr key={ingredientUser.id}>
-                    <td>{ingredientUser.name}</td>
-                    <td>{ingredientUser.category}</td>
-                    <td>
-                      <button
-                        className={classes.deleteButton}
-                        onClick={(ev) => onDelete(ingredientUser.id)}
-                      >
-                        <FiDelete />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+          <UserIngredientsTable
+            getIngredients={getUserIngredients}
+            ingredients={userIngredients}
+            loading={loadingIngredients}
+          />
         </div>
         <div className={classes.recipes}>
           <h3>Available Recipes</h3>

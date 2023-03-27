@@ -12,14 +12,6 @@ use Illuminate\Support\Facades\Auth;
 class IngredientRecipeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(IngredientRecipeRequest $request)
@@ -29,13 +21,13 @@ class IngredientRecipeController extends Controller
         $recipe = Recipe::find($data["recipe_id"]);
 
         if ($recipe->user_id != Auth::id()) {
-            return response(["message" => "You do not own this recipe."], 401);
+            return response(["error" => "You do not own this recipe."], 401);
         }
 
         $exists = IngredientRecipe::where('recipe_id', $data['recipe_id'])->where('ingredient_id', $data['ingredient_id'])->exists();
 
         if ($exists) {
-            return response(['ingredient' => 'You already have this ingredient'], 409);
+            return response(['error' => 'You already have this ingredient'], 409);
         }
 
         $ingredientRecipe = IngredientRecipe::create($data);
@@ -43,26 +35,27 @@ class IngredientRecipeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $recipe = Recipe::find($request->recipe_id);
+
+        if (!$recipe) {
+            return response(["error" => "Recipe not found."], 400);
+        }
+
+        if (Auth::id() != $recipe->user_id) {
+            return response(["error" => "You are not authorised to modify this recipe."], 401);
+        }
+
+        $ingredientRecipe = IngredientRecipe::where('recipe_id', $recipe->id)->where('ingredient_id', $request->ingredient_id)->first();
+
+        if (!$ingredientRecipe) {
+            return response(["error" => "Recipe does not contain ingredient."], 400);
+        }
+
+        $recipe->delete();
+        return response("", 204);
     }
 }

@@ -31,14 +31,17 @@ function Recipe(props) {
   }, []);
 
   const deleteRecipe = () => {
+    if (!window.confirm("Are you sure you would like to delete this recipe?")) {
+      return;
+    }
+
     axiosClient
       .delete(`/recipes/${params["id"]}`)
-      .then(({ data }) => {
+      .then(() => {
         return navigate("/recipes");
       })
       .catch((err) => {
-        // Error notification
-        console.error(err);
+        // TODO Error notification
       });
   };
 

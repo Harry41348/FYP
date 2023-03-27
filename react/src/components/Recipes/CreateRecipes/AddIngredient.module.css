@@ -2,6 +2,7 @@
 
 .content {
   display: flex;
+  /* flex-direction: column; */
   background-color: #e9edf6;
 }
 
@@ -46,7 +47,7 @@
 /* Ingredients section */
 
 .ingredientsContainer {
-  width: 100%;
+  width: fit-content;
 }
 
 .subHeading {
@@ -64,6 +65,7 @@
 
   padding: 0 2rem;
   height: 62rem;
+  width: 40rem;
 }
 
 .ingredientsContainer a {

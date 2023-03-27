@@ -50,7 +50,7 @@ function Dashboard() {
           )}
           {!token && (
             <>
-              <div>
+              <div className={classes.authButtons}>
                 <Link to="/login" className="btn">
                   Login
                 </Link>

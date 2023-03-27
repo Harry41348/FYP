@@ -256,6 +256,10 @@ main {
   margin-left: 6rem;
 }
 
+.mr-2 {
+  margin-right: 2rem;
+}
+
 .mt-2 {
   margin-top: 2rem;
 }
