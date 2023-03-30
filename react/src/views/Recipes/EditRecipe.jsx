@@ -7,7 +7,7 @@ import AddIngredientsForm from "../../components/Recipes/CreateRecipes/AddIngred
 import CreateRecipeForm from "../../components/Recipes/CreateRecipes/CreateRecipeForm";
 import classes from "./CreateRecipe.module.css";
 
-function CreateRecipe() {
+function EditRecipe() {
   const [errors, setErrors] = useState(null);
   const [step, setStep] = useState(1);
   const [recipe, setRecipe] = useState({});
@@ -86,6 +86,7 @@ function CreateRecipe() {
     axiosClient
       .post(`/recipes/${params["id"]}`, fdNew)
       .then(({ data }) => {
+        const recipeResponse = data;
         // TODO notification
 
         // Update ingredients
@@ -94,8 +95,7 @@ function CreateRecipe() {
             ingredients: ingredients,
           })
           .then(() => {
-            console.log(data);
-            return navigate(`/recipes/${data.id}`);
+            return navigate(`/recipes/${recipeResponse.id}`);
           }) // Catch ingredient error
           .catch(({ response }) => {
             const status = response.status;
@@ -180,4 +180,4 @@ function CreateRecipe() {
   );
 }
 
-export default CreateRecipe;
+export default EditRecipe;

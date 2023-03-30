@@ -32,7 +32,7 @@ class Recipe extends Model
         if ($value) {
             return asset('/storage/' . $value);
         } else {
-            return asset('/storage/images/defaultImage.jpg');
+            return asset('/storage/images/defaultCocktail.jpg');
         }
     }
 

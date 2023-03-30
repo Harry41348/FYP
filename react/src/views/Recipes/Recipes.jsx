@@ -26,13 +26,16 @@ function Recipes() {
   const getRecipes = () => {
     setLoading(true);
 
-    const requestParams = {
+    let requestParams = {
       recommended: recommendRef.current.checked,
       shuffle: shuffleRef.current.checked,
-      saved: savedRef.current.checked,
-      available: availableRef.current.checked,
-      created: createdRef.current.checked,
     };
+
+    if (token) {
+      requestParams.saved = savedRef.current.checked;
+      requestParams.available = availableRef.current.checked;
+      requestParams.created = createdRef.current.checked;
+    }
 
     axiosClient
       .get(`/recipes`, { params: requestParams })

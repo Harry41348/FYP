@@ -123,9 +123,9 @@ class RecipeController extends Controller
     public function update(Request $request, Recipe $recipe)
     {
         $data = $request->validate([
-            'name' => 'required|min:3|max:32|unique:recipes,name,' . $request->id,
+            'name' => 'required|min:3|max:32|unique:recipes,name,' . $recipe->id,
             'instructions' => 'required',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
         ]);
 
         if ($recipe->user_id != Auth::id()) {
@@ -133,6 +133,10 @@ class RecipeController extends Controller
         }
 
         if (isset($data['image'])) {
+            $imageToDelete = substr($recipe->image, strpos($recipe->image, 'storage/') + 8);
+            if ($imageToDelete !== "images/defaultCocktail.jpg") {
+                Storage::disk('public')->delete($imageToDelete);
+            }
             $data['image'] = Storage::disk('public')->put('images', $request->file('image'));
         }
 
@@ -150,6 +154,11 @@ class RecipeController extends Controller
         // Check if the recipe is owned by authenticated user
         if (Auth::id() != $recipe->user_id) {
             return response(['error' => 'You must have sufficient permissions to delete this recipe.'], 401);
+        }
+
+        $imageToDelete = substr($recipe->image, strpos($recipe->image, 'storage/') + 8);
+        if ($imageToDelete !== "images/defaultCocktail.jpg") {
+            Storage::disk('public')->delete($imageToDelete);
         }
 
         $recipe->delete();
