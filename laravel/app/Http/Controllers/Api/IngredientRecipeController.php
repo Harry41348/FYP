@@ -8,30 +8,113 @@ use App\Models\IngredientRecipe;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Throwable;
 
 class IngredientRecipeController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Store multiple newly created resources in storage.
      */
-    public function store(IngredientRecipeRequest $request)
+    public function store(Request $request, Recipe $recipe)
+    {
+        if ($recipe->user_id != Auth::id()) {
+            return response(['error' => 'Insufficient permissions to add ingredients to this recipe.'], 401);
+        }
+
+        // Validate the data
+        try {
+            $request->validate([
+                'ingredients' => 'required'
+            ]);
+        } catch (Throwable $e) {
+            // If something goes wrong with the validation, delete the recipe
+            $recipe->delete();
+
+            return response(['error' => 'Ingredients are required to create a recipe.'], 400);
+        }
+
+        try {
+            // For every ingredient, validate and create it
+            foreach ($request['ingredients'] as $ingredient) {
+                // If it exists, continue the foreach loop
+                $exists = IngredientRecipe::where('recipe_id', $recipe->id)->where('ingredient_id', $ingredient['ingredient_id'])->exists();
+                if ($exists) {
+                    continue;
+                }
+
+                // Store the Ingredient Recipe
+                $ingredient["recipe_id"] = $recipe->id;
+                $ingredientRequest = new Request($ingredient);
+                $data = $ingredientRequest->validate([
+                    'ingredient_id' => 'required|exists:ingredients,id',
+                    'recipe_id' => 'required|exists:recipes,id',
+                    'amount' => 'required',
+                    'measurement' => 'required'
+                ]);
+                IngredientRecipe::create($data);
+            }
+        } catch (Throwable $e) {
+            // If something goes wrong, delete the recipe
+            $recipe->delete();
+
+            return response(['error' => 'Invalid ingredient data.'], 400);
+        }
+
+        return response("", 201);
+    }
+
+    public function update(Request $request, Recipe $recipe)
     {
         // Validate the data and ensure it does not exist
-        $data = $request->validated();
-        $recipe = Recipe::find($data["recipe_id"]);
-
         if ($recipe->user_id != Auth::id()) {
-            return response(["error" => "You do not own this recipe."], 401);
+            return response(['error' => 'Insufficient permissions to update ingredients for this recipe.'], 401);
         }
 
-        $exists = IngredientRecipe::where('recipe_id', $data['recipe_id'])->where('ingredient_id', $data['ingredient_id'])->exists();
+        $request->validate([
+            'ingredients' => 'required'
+        ]);
 
-        if ($exists) {
-            return response(['error' => 'You already have this ingredient'], 409);
+        $requestIngredients = $request['ingredients'];
+        try {
+            // For every ingredient, validate and create it
+            foreach ($request['ingredients'] as $ingredient) {
+                // If it exists, continue the foreach loop
+                $exists = IngredientRecipe::where('recipe_id', $recipe->id)->where('ingredient_id', $ingredient['ingredient_id'])->exists();
+                if ($exists) {
+                    continue;
+                }
+
+                // Store the Ingredient Recipe
+                $ingredient["recipe_id"] = $recipe->id;
+                $ingredientRequest = new Request($ingredient);
+                $data = $ingredientRequest->validate([
+                    'ingredient_id' => 'required|exists:ingredients,id',
+                    'recipe_id' => 'required|exists:recipes,id',
+                    'amount' => 'required',
+                    'measurement' => 'required'
+                ]);
+                IngredientRecipe::create($data);
+            }
+        } catch (Throwable $e) {
+            // If something goes wrong, return error 400
+            return response(['error' => 'Invalid ingredient data.'], 400);
         }
 
-        $ingredientRecipe = IngredientRecipe::create($data);
-        return response($ingredientRecipe, 201);
+        $requestIngredients = $request['ingredients'];
+        // For each ingredient that isn't in the request, delete it
+        foreach ($recipe->ingredients as $ingredient) {
+            $removeIngredient = true;
+            foreach ($requestIngredients as $requestIngredient) {
+                if ($requestIngredient['ingredient_id'] == $ingredient->ingredient_id) {
+                    $removeIngredient = false;
+                }
+            }
+            if ($removeIngredient == true) {
+                IngredientRecipe::where('recipe_id', $recipe->id)->where('ingredient_id', $ingredient->ingredient_id)->delete();
+            }
+        }
+
+        return response("", 201);
     }
 
     /**

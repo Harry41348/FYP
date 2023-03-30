@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axiosClient from "../../axios-client";
 
 import classes from "./DashboardRecipes.module.css";
+import RecipeLink from "./RecipeLink";
 
 function DashboardRecipes({ filter }) {
   const [loading, setLoading] = useState(true);
@@ -46,15 +47,7 @@ function DashboardRecipes({ filter }) {
       {!loading && message && <p className={classes.message}>{message}</p>}
       {!loading &&
         Object.keys(recipes).length > 0 &&
-        recipes.map((recipe) => (
-          <Link
-            to={`/recipes/${recipe.id}`}
-            className={classes.recipe}
-            key={recipe.id}
-          >
-            <p>{recipe.name}</p>
-          </Link>
-        ))}
+        recipes.map((recipe) => <RecipeLink recipe={recipe} key={recipe.id} />)}
     </div>
   );
 }

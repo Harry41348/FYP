@@ -101,28 +101,35 @@ class RecipeTest extends TestCase
             'name' => 'Vodka',
             'category' => 'Spirit'
         ]);
-        $response = $this->post('/api/recipes', [
+
+        $recipeResponse = $this->post('/api/recipes', [
             'name' => "Strawberry Daquiri",
             'instructions' => "Pour ingredients together.",
             'is_recommended' => false,
-            'ingredients' => [
-                "0" => [
-                    "ingredient_id" => 1,
-                    "amount" => 3,
-                    "measurement" => "oz"
-                ]
-            ]
         ])->assertCreated();
 
         // Assert the returned data and database
-        $response->assertJson([
+        $recipeResponse->assertJson([
             'name' => 'Strawberry Daquiri',
             'instructions' => 'Pour ingredients together.',
             'user_id' => Auth::id(),
         ]);
+
+        $json = $recipeResponse->json();
+
+        $ingredientResponse = $this->post('/api/recipes/ingredients/' . $json['id'], [
+            'ingredients' => [
+                '0' => [
+                    'ingredient_id' => 1,
+                    'amount' => 3,
+                    'measurement' => 'oz'
+                ]
+            ]
+        ])->assertCreated();
+
         $this->assertDatabaseHas('ingredient_recipe', [
             'ingredient_id' => 1,
-            'recipe_id' => 6,
+            'recipe_id' => $json['id'],
             'amount' => 3,
             'measurement' => 'oz'
         ]);
@@ -180,6 +187,7 @@ class RecipeTest extends TestCase
             'name' => 'Vodka',
             'category' => 'Spirit'
         ]);
+
         $recipe = Recipe::factory()->create([
             'name' => 'Strawberry Daquiri',
             'instructions' => 'Pour ingredients together.',
@@ -188,16 +196,9 @@ class RecipeTest extends TestCase
         ]);
 
         // Update the recipe
-        $response = $this->put('/api/recipes/' . $recipe->id, [
+        $response = $this->post('/api/recipes/' . $recipe->id, [
             'name' => "Pina Colada",
             'instructions' => "Blend ingredients together.",
-            'ingredients' => [
-                "0" => [
-                    "ingredient_id" => 1,
-                    "amount" => 3,
-                    "measurement" => "oz"
-                ]
-            ]
         ])->assertOk();
 
         $response->assertJson([
@@ -210,6 +211,18 @@ class RecipeTest extends TestCase
             'name' => 'Pina Colada',
             'instructions' => 'Blend ingredients together.',
             'user_id' => Auth::id()
+        ]);
+
+        $json = $response->json();
+
+        $this->put('/api/recipes/ingredients/' . $json['id'], [
+            'ingredients' => [
+                "0" => [
+                    "ingredient_id" => 1,
+                    "amount" => 3,
+                    "measurement" => "oz"
+                ]
+            ]
         ]);
 
         $this->assertDatabaseHas('ingredient_recipe', [
@@ -234,7 +247,7 @@ class RecipeTest extends TestCase
             'is_recommended' => false,
         ]);
 
-        $this->put('/api/recipes/' . $recipe->id, [
+        $this->post('/api/recipes/' . $recipe->id, [
             'name' => "Pina Colada",
             'instructions' => "",
             'is_recommended' => true,
@@ -255,17 +268,10 @@ class RecipeTest extends TestCase
             'is_recommended' => false,
         ]);
 
-        $this->put('/api/recipes/' . $recipe->id, [
+        $this->post('/api/recipes/' . $recipe->id, [
             'name' => "Pina Colada",
             'instructions' => "New instructions",
-            'is_recommended' => true,
-            'ingredients' => [
-                "0" => [
-                    "ingredient_id" => 1,
-                    "amount" => 3,
-                    "measurement" => "oz"
-                ]
-            ]
+            'is_recommended' => true
         ])->assertUnauthorized();
     }
 

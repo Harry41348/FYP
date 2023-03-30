@@ -27,6 +27,15 @@ class Recipe extends Model
         'is_recommended' => false,
     ];
 
+    public function getImageAttribute($value)
+    {
+        if ($value) {
+            return asset('/storage/' . $value);
+        } else {
+            return asset('/storage/images/defaultCocktail.jpg');
+        }
+    }
+
     public function ingredients()
     {
         return $this->hasMany(IngredientRecipe::class);
