@@ -26,6 +26,26 @@
   border-radius: 1rem;
 }
 
+.saveRecipe input {
+  display: none;
+  opacity: 0;
+}
+
+.saveRecipe svg {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+
+  cursor: pointer;
+  color: var(--dark);
+  font-size: 3rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.saveRecipe input:checked + label svg {
+  color: #f6c342;
+}
+
 .imageContainer img {
   width: 100%;
   height: 100%;
@@ -64,4 +84,18 @@
   font-weight: 500;
   font-size: 1.8rem;
   color: #555;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

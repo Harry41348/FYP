@@ -8,6 +8,7 @@ use App\Http\Resources\IngredientRecipeResource;
 use App\Http\Resources\RecipeResource;
 use App\Models\Ingredient;
 use App\Models\Recipe;
+use App\Models\SavedRecipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -123,6 +124,10 @@ class RecipeController extends Controller
 
         $recipe = new RecipeResource($recipe);
 
+        if (auth('sanctum')->check()) {
+            $isSaved = SavedRecipe::where('recipe_id', $recipe->id)->where('user_id', auth('sanctum')->id())->exists();
+            return response(compact(['recipe', 'ingredients', 'isSaved']), 200);
+        }
         return response(compact(['recipe', 'ingredients']), 200);
     }
 
