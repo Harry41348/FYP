@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\IngredientController;
 use App\Http\Controllers\Api\IngredientUserController;
 use App\Http\Controllers\Api\RecipeController;
 use App\Http\Controllers\Api\IngredientRecipeController;
+use App\Http\Controllers\Api\SavedRecipeController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -46,6 +47,10 @@ Route::middleware('auth:sanctum')->group(function () {
     // Recipe Ingredients
     Route::post('/recipes/ingredients/{recipe}', [IngredientRecipeController::class, 'store']);
     Route::put('/recipes/ingredients/{recipe}', [IngredientRecipeController::class, 'update']);
+
+    // Saved Recipes
+    Route::post('recipes/save/{recipe}', [SavedRecipeController::class, 'save']);
+    Route::post('recipes/unsave/{recipe}', [SavedRecipeController::class, 'unsave']);
 });
 
 // Auth
