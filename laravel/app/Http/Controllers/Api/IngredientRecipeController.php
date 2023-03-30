@@ -17,23 +17,23 @@ class IngredientRecipeController extends Controller
      */
     public function store(Request $request, Recipe $recipe)
     {
-        // Validate the data and ensure it does not exist
         if ($recipe->user_id != Auth::id()) {
             return response(['error' => 'Insufficient permissions to add ingredients to this recipe.'], 401);
         }
 
+        // Validate the data
         try {
             $request->validate([
                 'ingredients' => 'required'
             ]);
         } catch (Throwable $e) {
+            // If something goes wrong with the validation, delete the recipe
             $recipe->delete();
 
             return response(['error' => 'Ingredients are required to create a recipe.'], 400);
         }
 
         try {
-
             // For every ingredient, validate and create it
             foreach ($request['ingredients'] as $ingredient) {
                 // If it exists, continue the foreach loop

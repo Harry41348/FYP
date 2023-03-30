@@ -77,7 +77,6 @@ function Recipe(props) {
             <h4>Recipe</h4>
             <p className="text-center">{recipe.instructions}</p>
           </div>
-          {/* <button className="btn">Edit</button> */}
           {user && user.id == recipe.user_id && (
             <>
               <button className="btn mt-2" onClick={editRecipe}>

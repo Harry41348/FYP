@@ -7,10 +7,7 @@ use App\Http\Requests\RecipeRequest;
 use App\Http\Resources\IngredientRecipeResource;
 use App\Http\Resources\RecipeResource;
 use App\Models\Ingredient;
-use App\Models\IngredientRecipe;
 use App\Models\Recipe;
-use Exception;
-use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -73,7 +70,13 @@ class RecipeController extends Controller
         }
 
         // Create the recipe
-        $recipe = Recipe::create($data);
+        try {
+            $recipe = Recipe::create($data);
+        } catch (Throwable $e) {
+            if (isset($data['image'])) {
+                Storage::disk('public')->delete($data['image']);
+            }
+        }
 
         return response($recipe, 201);
     }
@@ -90,12 +93,12 @@ class RecipeController extends Controller
         if ($request->id) {
             $request->validate([
                 'name' => 'required|min:3|max:32|unique:recipes,name,' . $request->id,
-                'instructions' => 'required',
+                'instructions' => 'required'
             ]);
         } else {
             $request->validate([
                 'name' => 'required|min:3|max:32|unique:recipes,name',
-                'instructions' => 'required',
+                'instructions' => 'required'
             ]);
         }
 
@@ -113,6 +116,8 @@ class RecipeController extends Controller
         foreach ($ingredients as $ingredient) {
             $ingredient->name = Ingredient::find($ingredient->ingredient_id)->name;
         }
+
+        $recipe = new RecipeResource($recipe);
 
         return response(compact(['recipe', 'ingredients']), 200);
     }

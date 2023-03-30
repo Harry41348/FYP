@@ -25,7 +25,7 @@ function CreateRecipe() {
     }
   });
 
-  const onSubmitRecipe = (e) => {
+  const onValidateRecipe = (e) => {
     e.preventDefault();
 
     setErrors(null);
@@ -142,7 +142,7 @@ function CreateRecipe() {
     <div className={classes.wrapper}>
       {step == 1 && (
         <CreateRecipeForm
-          onSubmitRecipe={onSubmitRecipe}
+          onSubmitRecipe={onValidateRecipe}
           errors={errors}
           nameRef={nameRef}
           recipe={recipe}

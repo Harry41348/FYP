@@ -160,10 +160,10 @@ function AddIngredient({ setAddIngredient, addIngredientFromForm }) {
                   defaultValue="oz"
                 />
               </div>
-              <button className="btn">Add Ingredient</button>
               <button className="btn" onClick={changeIngredient}>
                 Change ingredient
               </button>
+              <button className="btn">Add Ingredient</button>
             </form>
           </>
         )}
