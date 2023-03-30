@@ -13,7 +13,7 @@ function CreateRecipe() {
   const [image, setImage] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const [addIngredient, setAddIngredient] = useState(false);
-  const { token } = useStateContext();
+  const { token, setNotification } = useStateContext();
 
   const navigate = useNavigate();
   const nameRef = useRef();
@@ -69,13 +69,10 @@ function CreateRecipe() {
       fd.append("image", image, image.name);
     }
 
-    console.log(fd.get("name"));
-
     // Post recipe
     axiosClient
       .post("/recipes", fd)
       .then(({ data }) => {
-        // TODO notification
         const recipeResponse = data;
 
         // Post ingredients
@@ -84,6 +81,7 @@ function CreateRecipe() {
             ingredients: ingredients,
           })
           .then(({ data }) => {
+            setNotification("Recipe created successfully!");
             return navigate(`/recipes/${recipeResponse.id}`);
           }) // Catch ingredient error
           .catch(({ response }) => {

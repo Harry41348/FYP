@@ -7,8 +7,8 @@ import Modal from "../../components/Modal";
 
 import classes from "./Recipe.module.css";
 
-function Recipe(props) {
-  const { user } = useStateContext();
+function Recipe() {
+  const { user, setNotification } = useStateContext();
   const [loading, setLoading] = useState(false);
   const [recipe, setRecipe] = useState({});
   const [ingredients, setIngredients] = useState([]);
@@ -38,6 +38,7 @@ function Recipe(props) {
     axiosClient
       .delete(`/recipes/${params["id"]}`)
       .then(() => {
+        setNotification("Recipe deleted successfully!");
         return navigate("/recipes");
       })
       .catch((err) => {

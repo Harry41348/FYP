@@ -14,7 +14,7 @@ function Register() {
   const passwordConfirmationRef = useRef();
 
   const [errors, setErrors] = useState(null);
-  const { setUser, setToken } = useStateContext();
+  const { setUser, setToken, setNotification } = useStateContext();
   const navigate = useNavigate();
 
   const onSubmit = (e) => {
@@ -35,6 +35,7 @@ function Register() {
       .then(({ data }) => {
         setUser(data.user);
         setToken(data.token);
+        setNotification("You have been successfully registered!");
 
         navigate("/");
       })
