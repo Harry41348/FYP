@@ -23,6 +23,10 @@ class RecipeController extends Controller
         // return 'working';
         $recipes = Recipe::all();
 
+        // Filter out by user saved recipes
+        if ($request->saved == "true" && auth('sanctum')->check()) {
+            $recipes = auth('sanctum')->user()->savedRecipes;
+        }
         // Filters out by user created recipes
         if ($request->created == "true" && auth('sanctum')->check()) {
             $recipes = $recipes->where('user_id', auth('sanctum')->id());

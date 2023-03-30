@@ -62,6 +62,11 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
+    public function savedRecipes()
+    {
+        return $this->belongsToMany(Recipe::class, 'saved_recipes');
+    }
+
     public function ingredients()
     {
         return $this->belongsToMany(Ingredient::class);
