@@ -29,7 +29,7 @@ class IngredientRequest extends FormRequest
     {
         return [
             'name' => 'required|unique:ingredients,name',
-            'category' => ['required', new Category], // TODO test this later
+            'category' => ['required', new Category],
         ];
     }
 }

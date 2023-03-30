@@ -155,7 +155,6 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
-        // TODO Remove image alongside
         // Check if the recipe is owned by authenticated user
         if (Auth::id() != $recipe->user_id) {
             return response(['error' => 'You must have sufficient permissions to delete this recipe.'], 401);

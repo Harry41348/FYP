@@ -14,7 +14,7 @@ function EditRecipe() {
   const [image, setImage] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const [addIngredient, setAddIngredient] = useState(false);
-  const { token } = useStateContext();
+  const { token, setNotification } = useStateContext();
 
   const params = useParams();
   const navigate = useNavigate();
@@ -95,6 +95,7 @@ function EditRecipe() {
             ingredients: ingredients,
           })
           .then(() => {
+            setNotification("Recipe edited successfully!");
             return navigate(`/recipes/${recipeResponse.id}`);
           }) // Catch ingredient error
           .catch(({ response }) => {

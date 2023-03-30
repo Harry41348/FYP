@@ -14,7 +14,6 @@ function UserIngredientsTable({ ingredients, getIngredients, loading }) {
     axiosClient
       .delete(`/user-ingredients/${id}`)
       .then(() => {
-        // setNotification("Ingredient Removed"); TODO notifications
         getIngredients();
       })
       .catch(() => {});
