@@ -10,6 +10,7 @@ function CreateRecipe() {
   const [errors, setErrors] = useState(null);
   const [step, setStep] = useState(1);
   const [recipe, setRecipe] = useState({});
+  const [image, setImage] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const [addIngredient, setAddIngredient] = useState(false);
   const { token } = useStateContext();
@@ -61,18 +62,47 @@ function CreateRecipe() {
 
     setErrors(null);
 
-    const payload = {
-      name: recipe.name,
-      instructions: recipe.instructions,
-      ingredients: ingredients,
-    };
+    const fd = new FormData();
+    fd.append("name", recipe.name);
+    fd.append("instructions", recipe.instructions);
+    if (image) {
+      fd.append("image", image, image.name);
+    }
 
+    console.log(fd.get("name"));
+
+    // Post recipe
     axiosClient
-      .post("/recipes", payload)
+      .post("/recipes", fd)
       .then(({ data }) => {
         // TODO notification
-        return navigate(`/recipes/${data.id}`);
-      })
+        const recipeResponse = data;
+
+        // Post ingredients
+        axiosClient
+          .post(`/recipes/ingredients/${recipeResponse.id}`, {
+            ingredients: ingredients,
+          })
+          .then(({ data }) => {
+            return navigate(`/recipes/${recipeResponse.id}`);
+          }) // Catch ingredient error
+          .catch(({ response }) => {
+            const status = response.status;
+            if (response && (status === 401 || status === 422 || status)) {
+              if (response.data.errors) {
+                setErrors(response.data.errors);
+              } else if (response.data.error) {
+                setErrors({
+                  error: [response.data.error],
+                });
+              } else {
+                setErrors({
+                  error: [response.data.message],
+                });
+              }
+            }
+          });
+      }) // Catch recipe error
       .catch(({ response }) => {
         const status = response.status;
         if (response && (status === 401 || status === 422 || status)) {
@@ -117,6 +147,8 @@ function CreateRecipe() {
           nameRef={nameRef}
           recipe={recipe}
           instructionsRef={instructionsRef}
+          formType="Create"
+          setImage={setImage}
         />
       )}
 
@@ -130,6 +162,7 @@ function CreateRecipe() {
           errors={errors}
           ingredients={ingredients}
           onBack={onBack}
+          formType="Create"
         />
       )}
     </div>

@@ -10,8 +10,10 @@ use App\Models\Ingredient;
 use App\Models\IngredientRecipe;
 use App\Models\Recipe;
 use Exception;
+use Faker\Core\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class RecipeController extends Controller
@@ -50,7 +52,7 @@ class RecipeController extends Controller
             $recipes = $recipes->shuffle();
         }
         // How many recipes to take
-        if ($request->take == "true") {
+        if ($request->take) {
             $recipes = $recipes->take($request->take);
         }
 
@@ -66,31 +68,12 @@ class RecipeController extends Controller
         $data = $request->validated();
         $data['user_id'] = Auth::id();
 
+        if (isset($data['image'])) {
+            $data['image'] = Storage::disk('public')->put('images', $request->file('image'));
+        }
+
         // Create the recipe
         $recipe = Recipe::create($data);
-
-        try {
-            // For every ingredient, validate and create it
-            foreach ($request['ingredients'] as $ingredient) {
-                $request = new Request($ingredient);
-                $request->validate([
-                    'ingredient_id' => 'required|exists:ingredients,id',
-                    'amount' => 'required',
-                    'measurement' => 'required'
-                ]);
-                IngredientRecipe::create([
-                    'ingredient_id' => $request->ingredient_id,
-                    'recipe_id' => $recipe->id,
-                    'amount' => $request->amount,
-                    'measurement' => $request->measurement
-                ]);;
-            }
-        } catch (Throwable $e) {
-            // If something goes wrong, delete the recipe
-            $recipe->delete();
-
-            return response(['error' => 'Invalid ingredient data.'], 400);
-        }
 
         return response($recipe, 201);
     }
@@ -140,37 +123,17 @@ class RecipeController extends Controller
     public function update(Request $request, Recipe $recipe)
     {
         $data = $request->validate([
-            'name' => 'required|min:3|max:32|unique:recipes,name,' . $recipe->id,
+            'name' => 'required|min:3|max:32|unique:recipes,name,' . $request->id,
             'instructions' => 'required',
-            'ingredients' => 'required'
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
         ]);
 
         if ($recipe->user_id != Auth::id()) {
             return response(['error' => 'Unauthorised to modify this recipe.'], 401);
         }
 
-        try {
-            // For every ingredient, validate and create it
-            foreach ($request['ingredients'] as $ingredient) {
-                $exists = IngredientRecipe::where('recipe_id', $recipe->id)->where('ingredient_id', $ingredient['ingredient_id'])->exists();
-                if ($exists) {
-                    continue;
-                }
-                $request = new Request($ingredient);
-                $request->validate([
-                    'ingredient_id' => 'required|exists:ingredients,id',
-                    'amount' => 'required',
-                    'measurement' => 'required'
-                ]);
-                IngredientRecipe::create([
-                    'ingredient_id' => $request->ingredient_id,
-                    'recipe_id' => $recipe->id,
-                    'amount' => $request->amount,
-                    'measurement' => $request->measurement
-                ]);;
-            }
-        } catch (Throwable $e) {
-            return response(['error' => 'Invalid ingredient data.'], 400);
+        if (isset($data['image'])) {
+            $data['image'] = Storage::disk('public')->put('images', $request->file('image'));
         }
 
         $recipe->update($data);
@@ -183,6 +146,7 @@ class RecipeController extends Controller
      */
     public function destroy(Recipe $recipe)
     {
+        // TODO Remove image alongside
         // Check if the recipe is owned by authenticated user
         if (Auth::id() != $recipe->user_id) {
             return response(['error' => 'You must have sufficient permissions to delete this recipe.'], 401);

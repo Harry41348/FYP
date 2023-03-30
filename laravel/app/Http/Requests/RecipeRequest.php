@@ -25,7 +25,7 @@ class RecipeRequest extends FormRequest
         return [
             'name' => 'required|min:3|max:32|unique:recipes,name',
             'instructions' => 'required',
-            'ingredients' => 'required'
+            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
         ];
     }
 }

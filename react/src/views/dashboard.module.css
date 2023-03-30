@@ -32,6 +32,7 @@
   height: 24rem;
   display: flex;
   align-items: center;
+  margin: 1rem 0;
 }
 
 .authButtons {

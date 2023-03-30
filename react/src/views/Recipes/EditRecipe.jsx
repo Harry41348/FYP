@@ -11,9 +11,10 @@ function CreateRecipe() {
   const [errors, setErrors] = useState(null);
   const [step, setStep] = useState(1);
   const [recipe, setRecipe] = useState({});
+  const [image, setImage] = useState(null);
   const [ingredients, setIngredients] = useState([]);
   const [addIngredient, setAddIngredient] = useState(false);
-  const { token, user } = useStateContext();
+  const { token } = useStateContext();
 
   const params = useParams();
   const navigate = useNavigate();
@@ -74,17 +75,44 @@ function CreateRecipe() {
 
     setErrors(null);
 
-    const payload = {
-      name: recipe.name,
-      instructions: recipe.instructions,
-      ingredients: ingredients,
-    };
+    const fdNew = new FormData();
+    fdNew.append("name", recipe.name);
+    fdNew.append("instructions", recipe.instructions);
+    if (image) {
+      fdNew.append("image", image, image.name);
+    }
 
+    // Update recipe
     axiosClient
-      .put(`/recipes/${params["id"]}`, payload)
+      .post(`/recipes/${params["id"]}`, fdNew)
       .then(({ data }) => {
         // TODO notification
-        return navigate(`/recipes/${data.id}`);
+
+        // Update ingredients
+        axiosClient
+          .put(`/recipes/ingredients/${recipeResponse.id}`, {
+            ingredients: ingredients,
+          })
+          .then(() => {
+            console.log(data);
+            return navigate(`/recipes/${data.id}`);
+          }) // Catch ingredient error
+          .catch(({ response }) => {
+            const status = response.status;
+            if (response && (status === 401 || status === 422 || status)) {
+              if (response.data.errors) {
+                setErrors(response.data.errors);
+              } else if (response.data.error) {
+                setErrors({
+                  error: [response.data.error],
+                });
+              } else {
+                setErrors({
+                  error: [response.data.message],
+                });
+              }
+            }
+          });
       })
       .catch(({ response }) => {
         const status = response.status;
@@ -130,6 +158,8 @@ function CreateRecipe() {
           nameRef={nameRef}
           recipe={recipe}
           instructionsRef={instructionsRef}
+          formType="Edit"
+          setImage={setImage}
         />
       )}
 
@@ -143,6 +173,7 @@ function CreateRecipe() {
           errors={errors}
           ingredients={ingredients}
           onBack={onBack}
+          formType="Edit"
         />
       )}
     </div>

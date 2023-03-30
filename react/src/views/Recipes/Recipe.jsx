@@ -56,7 +56,9 @@ function Recipe(props) {
         <div className={classes.wrapper}>
           <h3>{recipe.name}</h3>
           <div className="flex">
-            <div className={classes.image}></div>
+            <div className={classes.imageContainer}>
+              <img src={recipe.image} alt={recipe.name + " image"} />
+            </div>
             <div className={classes.ingredients}>
               <h4>Ingredients</h4>
               <ul className={classes.ingredientsList}>

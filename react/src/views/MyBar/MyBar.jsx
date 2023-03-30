@@ -6,6 +6,7 @@ import axiosClient from "../../axios-client";
 import classes from "./MyBar.module.css";
 import UserIngredientsTable from "../../components/MyBar/UserIngredientsTable";
 import EditUserIngredients from "../../components/MyBar/EditUserIngredients";
+import RecipeLink from "../../components/Recipes/RecipeLink";
 
 function MyBar() {
   const [userIngredients, setUserIngredients] = useState([]);
@@ -102,13 +103,7 @@ function MyBar() {
             {!loadingRecipes &&
               Object.keys(recipes).length > 0 &&
               recipes.map((recipe) => (
-                <Link
-                  to={`/recipes/${recipe.id}`}
-                  className={classes.recipe}
-                  key={recipe.id}
-                >
-                  <p>{recipe.name}</p>
-                </Link>
+                <RecipeLink recipe={recipe} key={recipe.id} />
               ))}
           </div>
         </div>

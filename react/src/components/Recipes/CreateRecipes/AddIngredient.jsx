@@ -142,7 +142,14 @@ function AddIngredient({ setAddIngredient, addIngredientFromForm }) {
               <p>Ingredient: {ingredient.name}</p>
               <div className={classes.inputContainer}>
                 <label htmlFor="amount">Amount</label>
-                <input ref={amountRef} id="amount" max={99} type="number" />
+                <input
+                  ref={amountRef}
+                  id="amount"
+                  step={0.01}
+                  min={0.05}
+                  max={99}
+                  type="number"
+                />
               </div>
               <div className={classes.inputContainer}>
                 <label htmlFor="">Measurement</label>

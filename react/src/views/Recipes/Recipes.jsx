@@ -37,7 +37,6 @@ function Recipes() {
     axiosClient
       .get(`/recipes`, { params: requestParams })
       .then(({ data }) => {
-        console.log(data);
         setLoading(false);
         if (data.message != null) {
           setMessage(data.message);

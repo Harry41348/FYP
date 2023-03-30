@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 
 import classes from "./RecipeGroup.module.css";
+import RecipeLink from "./RecipeLink";
 
 function RecipeGroup(props) {
   return (
@@ -14,13 +15,7 @@ function RecipeGroup(props) {
       {!props.loading &&
         Object.keys(props.recipes).length > 0 &&
         props.recipes.map((recipe) => (
-          <Link
-            to={`/recipes/${recipe.id}`}
-            className={classes.recipe}
-            key={recipe.id}
-          >
-            <p>{recipe.name}</p>
-          </Link>
+          <RecipeLink recipe={recipe} key={recipe.id} />
         ))}
     </div>
   );
