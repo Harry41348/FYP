@@ -73,7 +73,7 @@ function Recipe() {
 
   return (
     <Modal path="/recipes">
-      {loading && <p>Loading</p>}
+      {loading && <div className={classes.loadingIcon}></div>}
       {!loading && (
         <>
           {token && (
