@@ -20,7 +20,7 @@ class IngredientSeeder extends Seeder
             ['name' => 'Spiced rum', 'category' => 'Spirit'],
             ['name' => 'Gold rum', 'category' => 'Spirit'],
             ['name' => 'Overproof rum', 'category' => 'Spirit'],
-            ['name' => 'Tequila', 'category' => 'Spirit'],
+            ['name' => 'Silver Tequila', 'category' => 'Spirit'],
             ['name' => 'Gold tequila', 'category' => 'Spirit'],
             ['name' => 'Mezcal', 'category' => 'Spirit'],
             ['name' => 'Bourbon whiskey', 'category' => 'Spirit'],
@@ -72,6 +72,8 @@ class IngredientSeeder extends Seeder
             ['name' => 'Cream of coconut', 'category' => 'Mixer'],
             ['name' => 'Strawberry', 'category' => 'Mixer'],
             ['name' => 'Cucumber Vodka', 'category' => 'Spirit'],
+            ['name' => 'Passion Juice', 'category' => 'Mixer'],
+            ['name' => 'Cane Sugar', 'category' => 'Mixer'],
         ];
 
         foreach ($ingredients as $ingredient) {
