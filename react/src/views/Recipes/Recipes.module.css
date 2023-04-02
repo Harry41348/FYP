@@ -10,18 +10,58 @@
   justify-content: center;
 }
 
-.content > * {
-  flex: 1;
-}
-
 .sidebar {
   display: flex;
   flex-direction: column;
-
   align-items: center;
+
+  margin-left: 4rem;
 }
 
 .sidebar .toggle {
-  width: 21rem;
   justify-content: flex-start;
+}
+
+@media all and (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sidebar {
+    flex-grow: 1 1;
+
+    flex-direction: column;
+  }
+
+  .toggle {
+    margin: 0 1rem;
+  }
+
+  .filterContainer {
+    display: flex;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .header h2 {
+    margin-bottom: 2rem;
+  }
+
+  .sidebar {
+    margin: 0;
+  }
+
+  .filterContainer {
+    flex-direction: column;
+  }
+
+  .toggle label {
+    font-size: 3rem;
+  }
 }

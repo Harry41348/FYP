@@ -12,7 +12,7 @@ function Dashboard() {
       <Outlet />
 
       <div className="header">
-        <h2 className="heading">Recipes</h2>
+        <h2 className="heading">Dashboard</h2>
       </div>
       <div className={classes.content}>
         <div className={classes.wrapper}>
@@ -44,18 +44,6 @@ function Dashboard() {
                 <DashboardRecipes filter="available" />
                 <Link to="/recipes" className="btn">
                   View all
-                </Link>
-              </div>
-            </>
-          )}
-          {!token && (
-            <>
-              <div className={classes.authButtons}>
-                <Link to="/login" className="btn">
-                  Login
-                </Link>
-                <Link to="/register" className="btn">
-                  Register
                 </Link>
               </div>
             </>

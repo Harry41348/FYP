@@ -11,7 +11,7 @@ function RecipeLink({ recipe }) {
       <div className={classes.container}>
         <div className={classes.wrapper}>
           <img src={recipe.image} alt={recipe.name + " image"} />
-          <div>{recipe.name}</div>
+          <span>{recipe.name}</span>
         </div>
       </div>
     </Link>

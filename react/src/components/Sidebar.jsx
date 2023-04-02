@@ -101,7 +101,7 @@ function Sidebar() {
               </a>
             </div>
             {!token && (
-              <div>
+              <div className={classes.sidebarAuth}>
                 <Link className="btn-sidebar" to="/login">
                   Login
                 </Link>
@@ -120,7 +120,6 @@ function Sidebar() {
             )}
           </aside>
         </div>
-        {/* </div> */}
       </div>
     </>
   );

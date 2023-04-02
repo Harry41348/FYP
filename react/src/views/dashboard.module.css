@@ -1,23 +1,18 @@
 .main {
   display: flex;
   flex-direction: column;
+
   min-height: 100vh;
+  width: 100%;
 }
 
 .content {
-  flex-grow: 1;
+  width: 100%;
+  height: 100%;
 
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.content h3 {
-  font-size: 2.4rem;
-  width: 30rem;
-  text-align: center;
-  border-right: 1px solid var(--dark);
 }
 
 .wrapper {
@@ -26,22 +21,23 @@
   align-items: flex-start;
 
   height: 100%;
+  text-align: center;
+}
+
+.content h3 {
+  font-size: 2.4rem;
 }
 
 .wrapper > * {
-  height: 24rem;
-  display: flex;
-  align-items: center;
-  margin: 1rem 0;
+  margin-bottom: 2rem;
 }
 
-.authButtons {
-  display: flex;
-  justify-content: center;
-
-  width: 100%;
+.wrapper > div > * {
+  margin-bottom: 1rem;
 }
 
-.authButtons > * {
-  margin: 0 1rem;
+@media all and (max-width: 768px) {
+  .content h3 {
+    font-size: 3.6rem;
+  }
 }

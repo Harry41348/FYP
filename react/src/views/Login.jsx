@@ -58,8 +58,8 @@ function Login() {
         )}
         <input ref={emailRef} type="email" placeholder="Email" />
         <input ref={passwordRef} type="password" placeholder="Password" />
-        <button className="btn btn-block">Login</button>
-        <p className="message">
+        <button className="btn">Login</button>
+        <p className="text-center">
           Not a member? <Link to="/register">Create an account</Link>
         </p>
       </form>

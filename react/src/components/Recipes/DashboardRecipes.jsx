@@ -18,7 +18,7 @@ function DashboardRecipes({ filter }) {
     setLoading(true);
 
     const requestParams = {
-      take: 4,
+      take: 3,
       shuffle: true,
     };
 
@@ -42,7 +42,7 @@ function DashboardRecipes({ filter }) {
   };
 
   return (
-    <div className={`ml-6 ${classes.recipesContainer}`}>
+    <div className={classes.recipesContainer}>
       {loading && <p className={classes.message}>Loading recipes...</p>}
       {!loading && message && <p className={classes.message}>{message}</p>}
       {!loading &&

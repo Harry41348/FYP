@@ -73,7 +73,7 @@ function Register() {
           type="password"
           placeholder="Password Confirmation"
         />
-        <button className="btn btn-block">Register</button>
+        <button className="btn">Register</button>
         <p className="message">
           Already a member? <Link to="/login">Login</Link>
         </p>
