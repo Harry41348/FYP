@@ -65,7 +65,7 @@ function Recipe() {
       axiosClient
         .post(`/recipes/unsave/${params["id"]}`)
         .then(() => {
-          setNotification("Recipe unsaved.");
+          setNotification("Recipe unsaved");
         })
         .catch(() => {});
     }

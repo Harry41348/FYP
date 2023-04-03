@@ -80,7 +80,7 @@ textarea:focus {
 }
 
 main {
-  flex-grow: 1;
+  flex: 1 1;
 }
 
 /* Headings */
@@ -294,6 +294,15 @@ main {
   animation-name: fadeInDown;
 }
 
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-delay: 3s;
+  animation-delay: 3s;
+}
+
 @keyframes fadeInDown {
   0% {
     opacity: 0;
@@ -302,6 +311,15 @@ main {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
   }
 }
 
@@ -340,7 +358,7 @@ main {
 
   .btn {
     font-size: 2.1rem;
-    padding: 1.6rem 2.4rem;
+    padding: 1.2rem 2.4rem;
   }
 
   .btn-sidebar {
@@ -376,5 +394,24 @@ main {
 
   .btn-sidebar {
     font-size: 3.2rem;
+  }
+
+  .checkbox {
+    width: 9rem;
+    height: 3.5rem;
+  }
+
+  .checkbox:after {
+    width: 3.2rem;
+    height: 3.2rem;
+    top: 0.8rem;
+  }
+
+  .checkbox:checked::after {
+    left: calc(100% - 4rem);
+  }
+
+  .notification {
+    text-align: center;
   }
 }

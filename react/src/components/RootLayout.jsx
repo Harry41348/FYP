@@ -14,7 +14,7 @@ function RootLayout() {
       </main>
       {notification && (
         <div
-          className="notification"
+          className="notification fadeOut"
           onClick={(e) => {
             setNotification("");
           }}

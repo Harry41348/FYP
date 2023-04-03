@@ -127,3 +127,54 @@
     transform: scale(1);
   }
 }
+
+@media all and (max-width: 1024px) {
+  .saveRecipe svg {
+    font-size: 4rem;
+  }
+
+  .wrapper {
+    padding: 5rem 0;
+  }
+
+  .wrapper h3 {
+    font-size: 3.5rem;
+  }
+
+  .wrapper h4 {
+    font-size: 3rem;
+  }
+
+  .imageContainer {
+    width: 25rem;
+    height: 25rem;
+  }
+
+  .ingredientsList,
+  .recipe p {
+    font-size: 2rem;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .saveRecipe svg {
+    font-size: 5rem;
+  }
+
+  .wrapper {
+    padding: 6rem 0;
+  }
+
+  .wrapper h3 {
+    font-size: 4rem;
+  }
+
+  .wrapper h4 {
+    font-size: 3.5rem;
+  }
+
+  .ingredientsList,
+  .recipe p {
+    font-size: 2.4rem;
+  }
+}
