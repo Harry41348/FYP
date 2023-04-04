@@ -50,6 +50,17 @@
   padding: 1rem;
 }
 
+@media all and (min-width: 1920px) {
+  .container {
+    width: 24rem;
+    height: 24rem;
+  }
+
+  .wrapper span {
+    font-size: 2.4rem;
+  }
+}
+
 @media all and (max-width: 1024px) {
   .container {
     width: 24rem;
