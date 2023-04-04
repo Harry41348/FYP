@@ -70,46 +70,48 @@ function AddIngredient({ setAddIngredient, addIngredientFromForm }) {
           <>
             <div className={classes.categoriesContainer}>
               <h3 className={classes.heading}>Categories</h3>
-              <button
-                className={
-                  category == "spirit"
-                    ? "btn-sidebar " + classes.active
-                    : "btn-sidebar"
-                }
-                onClick={() => getIngredients("spirit")}
-              >
-                Spirits
-              </button>
-              <button
-                className={
-                  category == "liqueur"
-                    ? "btn-sidebar " + classes.active
-                    : "btn-sidebar"
-                }
-                onClick={() => getIngredients("liqueur")}
-              >
-                Liqueurs
-              </button>
-              <button
-                className={
-                  category == "alcohol"
-                    ? "btn-sidebar " + classes.active
-                    : "btn-sidebar"
-                }
-                onClick={() => getIngredients("alcohol")}
-              >
-                Alcohol
-              </button>
-              <button
-                className={
-                  category == "mixer"
-                    ? "btn-sidebar " + classes.active
-                    : "btn-sidebar"
-                }
-                onClick={() => getIngredients("mixer")}
-              >
-                Mixers
-              </button>
+              <div className={classes.categories}>
+                <button
+                  className={
+                    category == "spirit"
+                      ? "btn-sidebar " + classes.active
+                      : "btn-sidebar"
+                  }
+                  onClick={() => getIngredients("spirit")}
+                >
+                  Spirits
+                </button>
+                <button
+                  className={
+                    category == "liqueur"
+                      ? "btn-sidebar " + classes.active
+                      : "btn-sidebar"
+                  }
+                  onClick={() => getIngredients("liqueur")}
+                >
+                  Liqueurs
+                </button>
+                <button
+                  className={
+                    category == "alcohol"
+                      ? "btn-sidebar " + classes.active
+                      : "btn-sidebar"
+                  }
+                  onClick={() => getIngredients("alcohol")}
+                >
+                  Alcohol
+                </button>
+                <button
+                  className={
+                    category == "mixer"
+                      ? "btn-sidebar " + classes.active
+                      : "btn-sidebar"
+                  }
+                  onClick={() => getIngredients("mixer")}
+                >
+                  Mixers
+                </button>
+              </div>
             </div>
             <div className={classes.ingredientsContainer}>
               <h3 className={classes.heading}>Ingredients</h3>

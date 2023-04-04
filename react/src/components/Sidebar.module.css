@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  z-index: 900;
 
   width: 24rem;
   height: 100vh;
@@ -57,4 +58,170 @@
   text-align: center;
   padding: 2rem 0;
   color: var(--white);
+}
+
+/* Mobile */
+
+.mobile {
+  height: 100vh;
+  flex: 0 0 8rem;
+  background-color: var(--colour-primary);
+
+  position: sticky;
+  top: 0;
+  left: 0;
+  display: none;
+  z-index: 901;
+}
+
+.menuToggle {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 2.5rem;
+  left: 2rem;
+  z-index: 900;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.menuToggle input {
+  display: flex;
+  margin-left: -0.5rem;
+  margin-top: -0.6rem;
+  width: 4rem;
+  height: 3.2rem;
+  position: absolute;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 999;
+}
+
+.menuToggle span {
+  width: 3.5rem;
+  height: 3px;
+  margin-bottom: 5px;
+  position: relative;
+  background: var(--white);
+  border-radius: 3px;
+  z-index: 901;
+  transform-origin: 5px 0px;
+  transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1),
+    background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
+}
+
+.menuToggle span:first-child {
+  transform-origin: 0% 0%;
+}
+
+.menuToggle span:nth-last-child(2) {
+  transform-origin: 0% 100%;
+}
+
+.menuToggle input:checked ~ span {
+  opacity: 1;
+  transform: rotate(45deg) translate(5px, -3px);
+}
+
+.menuToggle input:checked ~ span:nth-last-child(3) {
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+.menuToggle input:checked ~ span:nth-last-child(2) {
+  transform: rotate(-45deg) translate(5px, 4px);
+}
+
+.menuToggle input:checked ~ ul {
+  box-shadow: 0 0 10px #85888c;
+}
+
+.menuToggle input:focus-visible ~ span {
+  background-color: var(--colour-secondary);
+}
+
+.menuToggle input:checked:focus-visible ~ span {
+  background: var(--colour-secondary);
+}
+
+.sidebarMobile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  top: 0;
+  left: 0;
+  position: fixed;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  padding: 0 6rem;
+  text-align: center;
+  background-color: var(--colour-primary);
+  -webkit-font-smoothing: antialiased;
+
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+  transition: transform 0.7s cubic-bezier(0.77, 0.2, 0.05, 1);
+}
+
+.menuToggle input:checked ~ .sidebarMobile {
+  transform: translate(0);
+}
+
+.sidebarAuth {
+  margin-bottom: 2rem;
+}
+
+/* Small laptops */
+@media all and (max-width: 1440px) {
+  html {
+    font-size: 50%; /* 1 rem = 8px */
+  }
+}
+
+/* Tablets */
+@media all and (max-width: 1024px) {
+  html {
+    font-size: 43.75%; /* 1 rem = 7px */
+  }
+
+  .desktop {
+    display: none;
+  }
+
+  .mobile {
+    display: flex;
+  }
+
+  .heading {
+    font-size: 3.6rem;
+  }
+
+  .profile {
+    font-size: 2.4rem;
+  }
+}
+
+/* Phones */
+@media all and (max-width: 768px) {
+  html {
+    font-size: 37.5%; /* 1 rem = 6px */
+  }
+
+  .menuToggle input:checked ~ span {
+    transform: rotate(45deg) translate(3px, 0px);
+  }
+
+  .menuToggle input:checked ~ span:nth-last-child(2) {
+    transform: rotate(-45deg) translate(4px, 0px);
+  }
+
+  .heading {
+    font-size: 4.8rem;
+  }
+
+  .profile {
+    font-size: 3.2rem;
+  }
 }

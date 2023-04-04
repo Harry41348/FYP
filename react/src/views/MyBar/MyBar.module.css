@@ -85,3 +85,30 @@
   text-transform: capitalize;
   text-decoration: none;
 }
+
+@media all and (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .content h3 {
+    font-size: 3rem;
+  }
+}
+
+@media all and (max-width: 768px) {
+}
+
+@media all and (max-width: 500px) {
+  .content > * {
+    padding: 3rem 5px;
+  }
+
+  .recipesContainer {
+    width: 100%;
+  }
+
+  .ingredientsHeader {
+    width: 100%;
+  }
+}

@@ -58,85 +58,87 @@ function Recipes() {
 
       <div className={"header " + classes.header}>
         <h2 className="heading">Recipes</h2>
-        <input type="text" className="search-bar" placeholder="Search.." />
+        {/* <input type="text" className="search-bar" placeholder="Search.." /> */}
         <Link className="btn" to="/recipes/create">
           Create Recipe
         </Link>
       </div>
       <div className={classes.content}>
         <aside className={classes.sidebar}>
-          <button
-            className="btn"
-            onClick={(e) => {
-              e.preventDefault();
-              getRecipes();
-            }}
-          >
-            Refresh
-          </button>
-          <div className={"toggleWrapper " + classes.toggle}>
-            <input
-              ref={recommendRef}
-              type="checkbox"
-              className="checkbox"
-              id="recommendedToggle"
-            />
-            <label className="label" htmlFor="recommendedToggle">
-              Recommended
-            </label>
+          <div>
+            <button
+              className="btn mb-2"
+              onClick={(e) => {
+                e.preventDefault();
+                getRecipes();
+              }}
+            >
+              Refresh
+            </button>
           </div>
-          <div className={"toggleWrapper " + classes.toggle}>
-            <input
-              ref={shuffleRef}
-              type="checkbox"
-              className="checkbox"
-              id="shuffleToggle"
-            />
-            <label className="label" htmlFor="shuffleToggle">
-              Shuffle
-            </label>
+          <div className={classes.filterContainer}>
+            <div className={"toggleWrapper " + classes.toggle}>
+              <input
+                ref={recommendRef}
+                type="checkbox"
+                className="checkbox"
+                id="recommendedToggle"
+              />
+              <label className="label" htmlFor="recommendedToggle">
+                Recommended
+              </label>
+            </div>
+            <div className={"toggleWrapper " + classes.toggle}>
+              <input
+                ref={shuffleRef}
+                type="checkbox"
+                className="checkbox"
+                id="shuffleToggle"
+              />
+              <label className="label" htmlFor="shuffleToggle">
+                Shuffle
+              </label>
+            </div>
+            {token && (
+              <>
+                <div className={"toggleWrapper " + classes.toggle}>
+                  <input
+                    ref={savedRef}
+                    type="checkbox"
+                    className="checkbox"
+                    id="savedToggle"
+                  />
+                  <label className="label" htmlFor="savedToggle">
+                    Saved
+                  </label>
+                </div>
+                <div className={"toggleWrapper " + classes.toggle}>
+                  <input
+                    ref={availableRef}
+                    type="checkbox"
+                    className="checkbox"
+                    id="availableToggle"
+                  />
+                  <label className="label" htmlFor="availableToggle">
+                    Can make
+                  </label>
+                </div>
+                <div className={"toggleWrapper " + classes.toggle}>
+                  <input
+                    ref={createdRef}
+                    type="checkbox"
+                    className="checkbox"
+                    id="availableToggle"
+                  />
+                  <label className="label" htmlFor="availableToggle">
+                    Created
+                  </label>
+                </div>
+              </>
+            )}
           </div>
-          {token && (
-            <>
-              <div className={"toggleWrapper " + classes.toggle}>
-                <input
-                  ref={savedRef}
-                  type="checkbox"
-                  className="checkbox"
-                  id="savedToggle"
-                />
-                <label className="label" htmlFor="savedToggle">
-                  Saved
-                </label>
-              </div>
-              <div className={"toggleWrapper " + classes.toggle}>
-                <input
-                  ref={availableRef}
-                  type="checkbox"
-                  className="checkbox"
-                  id="availableToggle"
-                />
-                <label className="label" htmlFor="availableToggle">
-                  Can make
-                </label>
-              </div>
-              <div className={"toggleWrapper " + classes.toggle}>
-                <input
-                  ref={createdRef}
-                  type="checkbox"
-                  className="checkbox"
-                  id="availableToggle"
-                />
-                <label className="label" htmlFor="availableToggle">
-                  Created
-                </label>
-              </div>
-            </>
-          )}
         </aside>
-        <div className={classes.recipesContainer}>
-          <RecipeGroup loading={loading} message={message} recipes={recipes} />
-        </div>
+        <RecipeGroup loading={loading} message={message} recipes={recipes} />
         <div />
       </div>
     </div>

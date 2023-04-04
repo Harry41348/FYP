@@ -21,7 +21,7 @@ class RecipeFactory extends Factory
             'name' => fake()->word(1),
             'instructions' => fake()->paragraph(3),
             'user_id' => User::all()->random()->id,
-            'is_recommended' => fake()->boolean(),
+            'is_recommended' => 1,
         ];
     }
 }

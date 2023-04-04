@@ -3,8 +3,8 @@
 }
 
 .container {
-  width: 24rem;
-  height: 24rem;
+  width: 18rem;
+  height: 18rem;
   margin: 1rem 1rem;
   cursor: pointer;
 }
@@ -13,7 +13,7 @@
   position: relative;
   left: 0;
   top: 0;
-  height: 24rem;
+  height: inherit;
   overflow: hidden;
   z-index: 1;
 }
@@ -33,7 +33,7 @@
   filter: brightness(75%);
 }
 
-.wrapper div {
+.wrapper span {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,8 +42,43 @@
   width: 100%;
   color: var(--white);
   position: absolute;
-  font-family: var(--font-title);
+  font-family: var(--font-text);
   font-size: 2rem;
+  text-shadow: 0 0 3px #000;
   text-align: center;
   text-transform: capitalize;
+  padding: 1rem;
+}
+
+@media all and (min-width: 1920px) {
+  .container {
+    width: 24rem;
+    height: 24rem;
+  }
+
+  .wrapper span {
+    font-size: 2.4rem;
+  }
+}
+
+@media all and (max-width: 1024px) {
+  .container {
+    width: 24rem;
+    height: 24rem;
+  }
+
+  .wrapper span {
+    font-size: 2.4rem;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .container {
+    width: 30rem;
+    height: 30rem;
+  }
+
+  .wrapper span {
+    font-size: 2.8rem;
+  }
 }

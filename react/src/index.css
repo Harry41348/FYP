@@ -48,7 +48,7 @@ body,
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 62.5%; /* 10px = 1rem */
 }
 
 body {
@@ -58,8 +58,6 @@ body {
   color: var(--dark);
   background-color: var(--white);
   line-height: 1.2;
-
-  overflow-x: hidden;
 }
 
 input,
@@ -82,13 +80,12 @@ textarea:focus {
 }
 
 main {
-  width: 100%;
+  flex: 1 1;
 }
 
 /* Headings */
 
 .header {
-  /* display: block; */
   width: 100%;
   padding: 3.2rem;
 }
@@ -100,21 +97,23 @@ main {
 /* Buttons */
 
 .btn {
-  background-color: #e74c3c;
-  border-radius: 3rem;
+  background: #dc281e;
+  background: -webkit-linear-gradient(to right, #f00000cc, #dc281ecc);
+  background: linear-gradient(to right, #f00000cc, #dc281ecc);
+
+  border-radius: 3px;
   box-shadow: 0 0 1.5rem #1116;
   cursor: pointer;
   color: var(--white);
   display: inline-block;
   font-family: var(--font-text);
-  height: 4rem;
-  padding: 1rem 1.5rem;
+  padding: 1.2rem 1.8rem;
   text-align: center;
-  vertical-align: middle;
   text-decoration: none;
   border: 0;
-  font-size: 1.6rem;
-  transition: all 0.3s ease-out;
+  font-size: 1.8rem;
+  transition: all 0.25s ease-in-out;
+  height: fit-content;
 }
 
 .btn-round {
@@ -123,7 +122,7 @@ main {
 }
 
 .btn:hover {
-  background-color: var(--colour-primary);
+  transform: scale(1.1);
 }
 
 .btn-sidebar {
@@ -189,13 +188,13 @@ main {
 .checkbox:after {
   position: absolute;
   content: "";
-  top: 3px;
-  left: 3px;
-  width: 2.4rem;
-  height: 2.4rem;
+  top: 0.4rem;
+  left: 0.4rem;
+  width: 2.1rem;
+  height: 2.1rem;
   background: #dfeaec;
   z-index: 2;
-  border-radius: 3px;
+  border-radius: 0.3rem;
   transition: all 0.35s;
 }
 
@@ -204,7 +203,7 @@ main {
 }
 
 .checkbox:checked:after {
-  left: calc(100% - 2.8rem);
+  left: calc(100% - 2.7rem);
 }
 
 .label {
@@ -257,6 +256,10 @@ main {
   z-index: 1000;
 }
 
+.ml-3 {
+  margin-left: 3rem;
+}
+
 .ml-6 {
   margin-left: 6rem;
 }
@@ -267,6 +270,10 @@ main {
 
 .mt-2 {
   margin-top: 2rem;
+}
+
+.mb-2 {
+  margin-bottom: 2rem;
 }
 
 .flex {
@@ -287,6 +294,15 @@ main {
   animation-name: fadeInDown;
 }
 
+.fadeOut {
+  -webkit-animation-name: fadeOut;
+  animation-name: fadeOut;
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-delay: 3s;
+  animation-delay: 3s;
+}
+
 @keyframes fadeInDown {
   0% {
     opacity: 0;
@@ -295,5 +311,107 @@ main {
   100% {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Small laptops */
+@media all and (max-width: 1440px) {
+  html {
+    font-size: 50%; /* 1 rem = 8px */
+  }
+
+  .checkbox {
+    width: 7rem;
+    height: 3.5rem;
+  }
+
+  .checkbox:after {
+    width: 2.5rem;
+    height: 2.5rem;
+    left: 0.6rem;
+    top: 0.6rem;
+  }
+
+  .checkbox:checked::after {
+    left: calc(100% - 3.2rem);
+  }
+}
+
+/* Tablets */
+@media all and (max-width: 1024px) {
+  html {
+    font-size: 43.75%; /* 1 rem = 7px */
+  }
+
+  body {
+    font-size: 2rem;
+  }
+
+  .btn {
+    font-size: 2.1rem;
+    padding: 1.2rem 2.4rem;
+  }
+
+  .btn-sidebar {
+    font-size: 2.4rem;
+  }
+
+  .checkbox {
+    width: 7.5rem;
+    height: 3.7rem;
+  }
+
+  .checkbox:after {
+    width: 2.8rem;
+    height: 2.8rem;
+    left: 0.7rem;
+    top: 0.7rem;
+  }
+
+  .checkbox:checked::after {
+    left: calc(100% - 3.5rem);
+  }
+}
+
+/* Phones */
+@media all and (max-width: 768px) {
+  html {
+    font-size: 37.5%; /* 1 rem = 6px */
+  }
+
+  body {
+    font-size: 2.4rem;
+  }
+
+  .btn-sidebar {
+    font-size: 3.2rem;
+  }
+
+  .checkbox {
+    width: 9rem;
+    height: 3.5rem;
+  }
+
+  .checkbox:after {
+    width: 3.2rem;
+    height: 3.2rem;
+    top: 0.8rem;
+  }
+
+  .checkbox:checked::after {
+    left: calc(100% - 4rem);
+  }
+
+  .notification {
+    text-align: center;
   }
 }

@@ -65,7 +65,7 @@ function Recipe() {
       axiosClient
         .post(`/recipes/unsave/${params["id"]}`)
         .then(() => {
-          setNotification("Recipe unsaved.");
+          setNotification("Recipe unsaved");
         })
         .catch(() => {});
     }
@@ -73,7 +73,7 @@ function Recipe() {
 
   return (
     <Modal path="/recipes">
-      {loading && <p>Loading</p>}
+      {loading && <div className={classes.loadingIcon}></div>}
       {!loading && (
         <>
           {token && (

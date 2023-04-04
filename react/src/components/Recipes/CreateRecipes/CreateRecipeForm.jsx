@@ -36,7 +36,7 @@ function CreateRecipeForm(props) {
           required
         />
       </div>
-      <div>
+      <div className={classes.inputContainer}>
         <input
           type="file"
           id="image"
