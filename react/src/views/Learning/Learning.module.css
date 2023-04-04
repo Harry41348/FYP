@@ -1,0 +1,82 @@
+.header {
+  display: flex;
+}
+
+.linksContainer {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.link {
+  color: var(--grey);
+  text-decoration: none;
+  margin-right: 2rem;
+  font-size: 2rem;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.link:hover {
+  color: var(--dark);
+}
+
+.active {
+  color: var(--dark);
+}
+
+/* Content */
+
+.content {
+  max-width: 90%;
+  width: 108rem;
+  margin: 0 auto;
+}
+
+/* Accordion title */
+.content > div > div > div p {
+  font-size: 2rem;
+  font-family: var(--font-title);
+}
+
+/* Accordion content */
+.content > div > div > div > div > div p {
+  font-size: 1.6rem;
+  font-family: var(--font-title);
+}
+
+@media all and (min-width: 1920px) {
+  .content {
+    max-width: 120rem;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .linksContainer {
+    margin-top: 2rem;
+  }
+
+  .link {
+    font-size: 2.4rem;
+  }
+
+  .content {
+    width: 85%;
+  }
+
+  /* Accordion title */
+  .content > div > div > div p {
+    font-size: 2.8rem;
+  }
+
+  /* Accordion content */
+  .content > div > div > div > div > div p {
+    font-size: 2.4rem;
+  }
+}
