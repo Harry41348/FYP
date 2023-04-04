@@ -8,6 +8,7 @@
   --white: #eee;
   --black: #111;
   --dark: #212121;
+  --grey: #777;
   --alert: #ff4040;
   --success: #00a762;
 
@@ -133,6 +134,7 @@ main {
   text-decoration: none;
   text-transform: uppercase;
   font-size: 1.6rem;
+  text-align: left;
   font-family: var(--font-text);
   font-weight: 500;
   background-color: transparent;
