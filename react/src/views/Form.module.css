@@ -1,0 +1,57 @@
+.form {
+  background-color: var(--white);
+  padding: 3rem;
+  min-width: 30rem;
+}
+
+.title {
+  text-align: center;
+  padding-bottom: 3rem;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #aaa;
+}
+
+.form label {
+  display: block;
+  margin-bottom: 0.05rem;
+  color: #eadbfb;
+  font-weight: 500;
+}
+
+.form input,
+.form textarea {
+  display: block;
+  width: 100%;
+  font: var(--font-text);
+  font-weight: 500;
+  padding: 0.75rem;
+  border: none;
+  border-bottom: 1px solid #333;
+  background-color: transparent;
+  color: #28262c;
+}
+
+.form button {
+  display: block;
+  width: 100%;
+  margin: 2.5rem 0 2rem 0;
+  transition: all 0.3s ease-in-out;
+}
+
+.form a {
+  color: var(--colour-secondary);
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.form a:hover {
+  color: var(--colour-primary);
+}
+
+.form button:hover {
+  background-color: var(--colour-primary);
+}
+
+.message {
+  text-align: center;
+}

@@ -1,0 +1,13 @@
+.message {
+  font-size: 1.8rem;
+}
+
+.recipesContainer {
+  display: flex;
+}
+
+@media all and (max-width: 768px) {
+  .recipesContainer {
+    flex-direction: column;
+  }
+}

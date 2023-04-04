@@ -1,0 +1,110 @@
+/* Main content */
+
+.content {
+  display: flex;
+  background-color: #e9edf6;
+}
+
+.content > * {
+  padding: 3rem;
+}
+
+.heading {
+  font-size: 2.4rem;
+  text-align: center;
+  font-family: var(--font-title);
+  font-weight: 300;
+  margin-bottom: 2rem;
+}
+
+/* Categories section */
+
+.categoriesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  border-right: 1px solid var(--dark);
+}
+
+.categoriesContainer div {
+  display: flex;
+  flex-direction: column;
+}
+
+.categoriesContainer button {
+  color: var(--dark);
+  font-size: 2rem;
+  text-align: center;
+  margin: 0.2rem 1rem;
+  /* margin: 1rem auto; */
+  /* margin: 1rem 1.3rem; */
+  /* margin-right: 2rem; */
+}
+
+.categoriesContainer button:hover {
+  background-color: #111c;
+  color: var(--white);
+  margin-left: 2rem;
+  margin-right: 0;
+  padding-left: 1rem;
+  /* margin-right: 1rem;
+  margin-left: 1rem; */
+}
+
+.categoriesContainer .active {
+  background-color: #111c;
+  color: var(--success);
+  padding: 1rem 1.3rem;
+}
+
+/* Ingredients section */
+
+.ingredientsContainer {
+  width: fit-content;
+}
+
+.subHeading {
+  font-size: 1.8rem;
+  color: #010b13;
+  margin: 1.5rem 0;
+}
+
+.ingredientsContainer > div {
+  display: flex;
+  align-content: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  padding: 0 2rem;
+  height: 50vh;
+  width: 70vw;
+}
+
+@media all and (max-width: 768px) {
+  .content {
+    flex-direction: column;
+  }
+
+  .categoriesContainer {
+    border-bottom: 1px solid var(--dark);
+  }
+
+  .categoriesContainer div {
+    flex-direction: row;
+  }
+
+  .ingredientsContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+  }
+
+  .ingredientsContainer > div {
+    align-content: center;
+    height: 70vh;
+  }
+}

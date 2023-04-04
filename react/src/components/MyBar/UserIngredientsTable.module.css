@@ -1,0 +1,81 @@
+/* Table */
+
+.table {
+  border-collapse: collapse;
+  border-radius: 2rem;
+  overflow: hidden;
+
+  margin: 2.5rem auto;
+  font-size: 1.6rem;
+  font-family: var(--font-text);
+  min-width: 50rem;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.table thead tr {
+  background-color: var(--colour-secondary);
+  color: #ffffff;
+  text-align: center;
+}
+
+.table th,
+.table td {
+  padding: 12px 15px;
+}
+
+.table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.table .deleteButton {
+  border: none;
+}
+
+.table svg {
+  font-size: 2.2rem;
+  vertical-align: middle;
+  transition: all 0.3s ease-in-out;
+}
+
+.table svg:hover {
+  cursor: pointer;
+  color: var(--alert);
+}
+
+@media all and (max-width: 1024px) {
+  .table {
+    min-width: 65rem;
+    font-size: 2rem;
+  }
+
+  .table svg {
+    font-size: 2.8rem;
+  }
+}
+
+@media all and (max-width: 768px) {
+  .table {
+    width: inherit;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 0;
+  }
+}
+
+@media all and (max-width: 500px) {
+  .table {
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .table th,
+  .table td {
+    padding: 10px 0;
+  }
+}
