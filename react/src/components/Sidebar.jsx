@@ -55,17 +55,10 @@ function Sidebar() {
               <FaGlassMartiniAlt />
               My bar
             </Link>
-<<<<<<< HEAD
             <Link className="btn-sidebar" to="/learning">
               <FaGraduationCap />
               Learn
             </Link>
-=======
-            <a className="btn-sidebar" href="#">
-              <FaGraduationCap />
-              Learn
-            </a>
->>>>>>> main
           </div>
           {!token && (
             <div>
@@ -79,15 +72,9 @@ function Sidebar() {
           )}
           {token && (
             <div>
-<<<<<<< HEAD
               <button className="btn-sidebar" onClick={onLogout}>
                 Logout
               </button>
-=======
-              <a className="btn-sidebar" href="#" onClick={onLogout}>
-                Logout
-              </a>
->>>>>>> main
               <p className={classes.profile}>{user.first_name}</p>
             </div>
           )}
@@ -112,15 +99,9 @@ function Sidebar() {
               <Link className="btn-sidebar" to="/my-bar">
                 My bar
               </Link>
-<<<<<<< HEAD
               <Link className="btn-sidebar" to="/learning">
                 Learn
               </Link>
-=======
-              <a className="btn-sidebar" href="#">
-                Learn
-              </a>
->>>>>>> main
             </div>
             {!token && (
               <div className={classes.sidebarAuth}>
@@ -134,15 +115,9 @@ function Sidebar() {
             )}
             {token && (
               <div>
-<<<<<<< HEAD
                 <button className="btn-sidebar" onClick={onLogout}>
                   Logout
                 </button>
-=======
-                <a className="btn-sidebar" href="#" onClick={onLogout}>
-                  Logout
-                </a>
->>>>>>> main
                 <p className={classes.profile}>{user.first_name}</p>
               </div>
             )}
