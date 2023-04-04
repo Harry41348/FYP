@@ -2,13 +2,14 @@ import classes from "./Sidebar.module.css";
 import { FaGlassMartiniAlt, FaGraduationCap } from "react-icons/fa";
 import { ImBook } from "react-icons/im";
 import { AiFillHome } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
 import { useEffect } from "react";
 import axiosClient from "../axios-client";
 
 function Sidebar() {
   const { user, token, setUser, setToken } = useStateContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (token) {
@@ -31,6 +32,8 @@ function Sidebar() {
     axiosClient.post("/logout").then(() => {
       setUser({});
       setToken(null);
+
+      return navigate("/");
     });
   };
 
@@ -52,10 +55,10 @@ function Sidebar() {
               <FaGlassMartiniAlt />
               My bar
             </Link>
-            <a className="btn-sidebar" href="#">
+            <Link className="btn-sidebar" to="/learning">
               <FaGraduationCap />
               Learn
-            </a>
+            </Link>
           </div>
           {!token && (
             <div>
@@ -69,9 +72,9 @@ function Sidebar() {
           )}
           {token && (
             <div>
-              <a className="btn-sidebar" href="#" onClick={onLogout}>
+              <button className="btn-sidebar" onClick={onLogout}>
                 Logout
-              </a>
+              </button>
               <p className={classes.profile}>{user.first_name}</p>
             </div>
           )}
@@ -96,9 +99,9 @@ function Sidebar() {
               <Link className="btn-sidebar" to="/my-bar">
                 My bar
               </Link>
-              <a className="btn-sidebar" href="#">
+              <Link className="btn-sidebar" to="/learning">
                 Learn
-              </a>
+              </Link>
             </div>
             {!token && (
               <div className={classes.sidebarAuth}>
@@ -112,9 +115,9 @@ function Sidebar() {
             )}
             {token && (
               <div>
-                <a className="btn-sidebar" href="#" onClick={onLogout}>
+                <button className="btn-sidebar" onClick={onLogout}>
                   Logout
-                </a>
+                </button>
                 <p className={classes.profile}>{user.first_name}</p>
               </div>
             )}

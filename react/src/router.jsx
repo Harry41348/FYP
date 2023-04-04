@@ -10,6 +10,10 @@ import EditRecipe from "./views/Recipes/EditRecipe";
 import MyBar from "./views/MyBar/MyBar";
 import EditUserIngredients from "./components/MyBar/EditUserIngredients";
 import NotFound from "./views/NotFound";
+import Learning from "./views/Learning/Learning";
+import Equipment from "./views/Learning/Equipment";
+import Ingredients from "./views/Learning/Ingredients";
+import Technique from "./views/Learning/Technique";
 
 function Router() {
   return (
@@ -25,6 +29,11 @@ function Router() {
         <Route path="/recipes/edit/:id" element={<EditRecipe />} />
         <Route path="/my-bar" element={<MyBar />} />
         <Route path="/add-ingredients" element={<EditUserIngredients />} />
+        <Route path="/learning" element={<Learning />}>
+          <Route path="/learning/equipment" element={<Equipment />} />
+          <Route path="/learning/ingredients" element={<Ingredients />} />
+          <Route path="/learning/technique" element={<Technique />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
