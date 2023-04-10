@@ -38,8 +38,6 @@ function Sidebar() {
     });
   };
 
-  const closeNav = () => {};
-
   return (
     <>
       <div className={classes.desktop} role="navigation">
