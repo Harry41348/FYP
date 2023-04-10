@@ -71,6 +71,10 @@ function Recipe() {
     }
   };
 
+  const displayInstructions = () => {
+    let instructions = recipe.instructions;
+  };
+
   return (
     <Modal path="/recipes">
       {loading && <div className={classes.loadingIcon}></div>}
