@@ -12,6 +12,7 @@ use App\Models\SavedRecipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Image;
 use Throwable;
 
 class RecipeController extends Controller
@@ -71,7 +72,15 @@ class RecipeController extends Controller
         $data['user_id'] = Auth::id();
 
         if (isset($data['image'])) {
-            $data['image'] = Storage::disk('public')->put('images', $request->file('image'));
+            $image = $request->file('image');
+            $input['file'] = time() . '.' . $image->getClientOriginalExtension();
+
+            $destinationPath = public_path('storage/images');
+            $imgFile = Image::make($image->getRealPath());
+            $imgFile->orientate()->resize(720, 720, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $input['file']);
+            $data['image'] = 'images/' . $input['file'];
         }
 
         // Create the recipe
@@ -139,7 +148,7 @@ class RecipeController extends Controller
         $data = $request->validate([
             'name' => 'required|min:3|max:32|unique:recipes,name,' . $recipe->id,
             'instructions' => 'required',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg,webp|max:2048'
+            'image' => 'nullable|image|mimes:jpg,png,jpeg,webp'
         ]);
 
         if ($recipe->user_id != Auth::id()) {
@@ -151,7 +160,16 @@ class RecipeController extends Controller
             if ($imageToDelete !== "images/defaultCocktail.jpg") {
                 Storage::disk('public')->delete($imageToDelete);
             }
-            $data['image'] = Storage::disk('public')->put('images', $request->file('image'));
+
+            $image = $request->file('image');
+            $input['file'] = time() . '.' . $image->getClientOriginalExtension();
+
+            $destinationPath = public_path('storage/images');
+            $imgFile = Image::make($image->getRealPath());
+            $imgFile->orientate()->resize(720, 720, function ($constraint) {
+                $constraint->aspectRatio();
+            })->save($destinationPath . '/' . $input['file']);
+            $data['image'] = 'images/' . $input['file'];
         }
 
         $recipe->update($data);

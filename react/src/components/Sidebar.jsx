@@ -4,12 +4,13 @@ import { ImBook } from "react-icons/im";
 import { AiFillHome } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../contexts/ContextProvider";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import axiosClient from "../axios-client";
 
 function Sidebar() {
   const { user, token, setUser, setToken } = useStateContext();
   const navigate = useNavigate();
+  const navCheckboxRef = useRef();
 
   useEffect(() => {
     if (token) {
@@ -36,6 +37,8 @@ function Sidebar() {
       return navigate("/");
     });
   };
+
+  const closeNav = () => {};
 
   return (
     <>
@@ -83,32 +86,56 @@ function Sidebar() {
 
       <div className={classes.mobile} role="navigation">
         <div className={classes.menuToggle} id="menuToggle">
-          <input type="checkbox" id="navMenu" />
+          <input ref={navCheckboxRef} type="checkbox" id="navMenu" />
           <span></span>
           <span></span>
           <span></span>
           <aside className={classes.sidebarMobile}>
             <div>
               <h1 className={classes.heading}>Mixxy</h1>
-              <Link className="btn-sidebar" to="/">
+              <Link
+                onClick={() => (navCheckboxRef.current.checked = false)}
+                className="btn-sidebar"
+                to="/"
+              >
                 Dashboard
               </Link>
-              <Link className="btn-sidebar" to="/recipes">
+              <Link
+                onClick={() => (navCheckboxRef.current.checked = false)}
+                className="btn-sidebar"
+                to="/recipes"
+              >
                 Recipes
               </Link>
-              <Link className="btn-sidebar" to="/my-bar">
+              <Link
+                onClick={() => (navCheckboxRef.current.checked = false)}
+                className="btn-sidebar"
+                to="/my-bar"
+              >
                 My bar
               </Link>
-              <Link className="btn-sidebar" to="/learning">
+              <Link
+                onClick={() => (navCheckboxRef.current.checked = false)}
+                className="btn-sidebar"
+                to="/learning"
+              >
                 Learn
               </Link>
             </div>
             {!token && (
               <div className={classes.sidebarAuth}>
-                <Link className="btn-sidebar" to="/login">
+                <Link
+                  onClick={() => (navCheckboxRef.current.checked = false)}
+                  className="btn-sidebar"
+                  to="/login"
+                >
                   Login
                 </Link>
-                <Link className="btn-sidebar" to="/register">
+                <Link
+                  onClick={() => (navCheckboxRef.current.checked = false)}
+                  className="btn-sidebar"
+                  to="/register"
+                >
                   Register
                 </Link>
               </div>
